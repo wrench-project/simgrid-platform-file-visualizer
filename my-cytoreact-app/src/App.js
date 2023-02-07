@@ -20,8 +20,45 @@ function App() {
     { data: { id: 'host1-connection', source: 'host1', target: 'connection', label: 'Link1' } },
     { data: { id: 'host2-connection', source: 'host2', target: 'connection', label: 'Link2' } },
   ];
+  const stylesheet = [
+    {
+      selector: 'node',
+      css: {
+        'shape': 'data(type)',
+        'label': 'data(label)'
+      }
+    },
+    {
+      selector: ':parent',
+      css: {
+        'text-valign': 'top',
+        'text-halign': 'center',
+        'padding': '60px',
+      }
+    },
+    {
+      selector: 'edge',
+      css: {
+        'curve-style': 'bezier',
+        'label': 'data(label)'
+      }
+    },
+    {
+      selector: '#disk',
+      css: {
+        'background-image': './cylinder.png',
+        'height': 80,
+        'width': 80,
+        'background-fit': 'contain',
+        'background-color': '#ffffff',
+      }
+    },
+  ];
   return (
-    <CytoscapeComponent elements={elements} style={ { width: '1800px', height: '1800px' } } />
+    <CytoscapeComponent 
+      elements={elements} 
+      style={{ width: '1800px', height: '1800px' }} 
+      stylesheet={stylesheet} />
   );
 }
 
