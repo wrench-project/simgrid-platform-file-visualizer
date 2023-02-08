@@ -46,9 +46,9 @@ function App() {
     {
       selector: '#disk',
       css: {
-        'background-image': './cylinder.png',
-        'height': 80,
-        'width': 80,
+        'background-image': 'https://cdn-icons-png.flaticon.com/512/227/227889.png',
+        'height': 120,
+        'width': 120,
         'background-fit': 'contain',
         'background-color': '#ffffff',
       }
