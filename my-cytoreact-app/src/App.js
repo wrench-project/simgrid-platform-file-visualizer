@@ -1,6 +1,7 @@
 import CytoscapeComponent from 'react-cytoscapejs';
 import popper from 'cytoscape-popper';
 import cytoscape from 'cytoscape';
+import "./popper.css";
 import data from './data.json'
 
 
@@ -84,8 +85,8 @@ function App() {
             content: () => {
               let content = document.createElement("div");
 
-              content.classList.add("popper-div");
               if (event.target.data("type") !== "ellipse" ) {
+                content.classList.add("popper-div");
                 content.innerHTML = event.target.id();
               }
               document.body.appendChild(content);
