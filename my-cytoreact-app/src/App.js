@@ -85,9 +85,9 @@ function App() {
               let content = document.createElement("div");
 
               content.classList.add("popper-div");
-
-              content.innerHTML = event.target.id();
-
+              if (event.target.data("type") !== "ellipse" ) {
+                content.innerHTML = event.target.id();
+              }
               document.body.appendChild(content);
               return content;
             },
