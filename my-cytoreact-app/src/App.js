@@ -1,11 +1,4 @@
 import CytoscapeComponent from 'react-cytoscapejs';
-import popper from 'cytoscape-popper';
-import cytoscape from 'cytoscape';
-import data from './data.json'
-import {useRef} from "react";
-
-
-cytoscape.use(popper);
 
 function App() {
 
@@ -63,11 +56,6 @@ function App() {
     },
   ];
 
-  const handleClick = () => {
-    console.log("I've been clicked")
-  }
-
-  
   return (
     <CytoscapeComponent 
       elements={elements} 
@@ -79,23 +67,6 @@ function App() {
           console.log("event", evt);
           console.log("target", node.data());
         })
-        cy.elements().unbind("mouseover");
-        cy.elements().bind("mouseover", (event) => {
-          event.target.popperRefObj = event.target.popper( {
-            content: () => {
-              let content = document.createElement("div");
-              content.innerHTML = event.target.data('id');
-              document.body.appendChild(content);
-              return content;
-            }
-          })
-        })
-        // cy.elements().unbind("mouseout");
-        // cy.elements().bind("mouseout", (event) => {
-        //   if (event.target.popper) {
-        //     event.target.popperRefObj.remove();
-        //   }
-        // });
       }}
   />);
 }
