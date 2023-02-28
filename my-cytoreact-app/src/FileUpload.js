@@ -25,31 +25,25 @@ function FileUploadButton() {
 
             iterateJson(jsonDataFromXml);
 
-            function iterateJson(json) {
-                for (const key in json) {
-                    if (json.hasOwnProperty(key)) {
-                        const value = json[key];
+        }
 
-                        // Check if the key is "platform version"
-                        if (key === "name") {
-                            // If the value is an object, recursively iterate through its keys
-                            if (typeof value === "object") {
-                                iterateJson(value);
-                            } else {
-                                // If the value is not an object, it's a leaf node
-                                console.log(`Found child element: ${key} = ${value}`);
-                                // Check if the parent object has attributes
-                                if (json.hasOwnProperty("properties")) {
-                                    // If it does, iterate through its keys and log each attribute name and value
-                                    for (const attribute in json.properties) {
-                                        console.log(`Found attribute: ${attribute} = ${json.properties[attribute]}`);
-                                    }
-                                }
-                            }
-                        } else if (typeof value === "object") {
-                            // If the value is an object, recursively iterate through its keys
+        function iterateJson(json) {
+            for (const key in json) {
+                if (json.hasOwnProperty(key)) {
+                    const value = json[key];
+
+                    if (key === "name") {
+                        // If the value is an object, recursively iterate through its keys
+                        if (typeof value === "object") {
                             iterateJson(value);
+                        } else {
+                            // If the value is not an object, it's a leaf node
+                            console.log(`Found child element: ${key} = ${value}`);
+                            console.log(json.attributes);
                         }
+                    } else if (typeof value === "object") {
+                        // If the value is an object, recursively iterate through its keys
+                        iterateJson(value);
                     }
                 }
             }
