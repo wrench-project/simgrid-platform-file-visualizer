@@ -6,27 +6,7 @@
   <component name="ChangeListManager">
     <list default="true" id="16acee19-c3f1-4486-87dd-22168e6906e3" name="Changes" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/my-cytoreact-app/src/App.js" beforeDir="false" afterPath="$PROJECT_DIR$/my-cytoreact-app/src/App.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/node_modules/cytoscape-popper/.babelrc" beforeDir="false" afterPath="$PROJECT_DIR$/node_modules/cytoscape-popper/.babelrc" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/node_modules/cytoscape-popper/.eslintignore" beforeDir="false" afterPath="$PROJECT_DIR$/node_modules/cytoscape-popper/.eslintignore" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/node_modules/cytoscape-popper/.eslintrc" beforeDir="false" afterPath="$PROJECT_DIR$/node_modules/cytoscape-popper/.eslintrc" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/node_modules/cytoscape-popper/.github/stale.yml" beforeDir="false" afterPath="$PROJECT_DIR$/node_modules/cytoscape-popper/.github/stale.yml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/node_modules/cytoscape-popper/LICENSE" beforeDir="false" afterPath="$PROJECT_DIR$/node_modules/cytoscape-popper/LICENSE" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/node_modules/cytoscape-popper/README.md" beforeDir="false" afterPath="$PROJECT_DIR$/node_modules/cytoscape-popper/README.md" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/node_modules/cytoscape-popper/bower.json" beforeDir="false" afterPath="$PROJECT_DIR$/node_modules/cytoscape-popper/bower.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/node_modules/cytoscape-popper/cytoscape-popper.js" beforeDir="false" afterPath="$PROJECT_DIR$/node_modules/cytoscape-popper/cytoscape-popper.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/node_modules/cytoscape-popper/demo-tippy.html" beforeDir="false" afterPath="$PROJECT_DIR$/node_modules/cytoscape-popper/demo-tippy.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/node_modules/cytoscape-popper/demo.html" beforeDir="false" afterPath="$PROJECT_DIR$/node_modules/cytoscape-popper/demo.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/node_modules/cytoscape-popper/package.json" beforeDir="false" afterPath="$PROJECT_DIR$/node_modules/cytoscape-popper/package.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/node_modules/cytoscape-popper/src/assign.js" beforeDir="false" afterPath="$PROJECT_DIR$/node_modules/cytoscape-popper/src/assign.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/node_modules/cytoscape-popper/src/bb.js" beforeDir="false" afterPath="$PROJECT_DIR$/node_modules/cytoscape-popper/src/bb.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/node_modules/cytoscape-popper/src/collection.js" beforeDir="false" afterPath="$PROJECT_DIR$/node_modules/cytoscape-popper/src/collection.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/node_modules/cytoscape-popper/src/content.js" beforeDir="false" afterPath="$PROJECT_DIR$/node_modules/cytoscape-popper/src/content.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/node_modules/cytoscape-popper/src/core.js" beforeDir="false" afterPath="$PROJECT_DIR$/node_modules/cytoscape-popper/src/core.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/node_modules/cytoscape-popper/src/index.js" beforeDir="false" afterPath="$PROJECT_DIR$/node_modules/cytoscape-popper/src/index.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/node_modules/cytoscape-popper/src/popper.js" beforeDir="false" afterPath="$PROJECT_DIR$/node_modules/cytoscape-popper/src/popper.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/node_modules/cytoscape-popper/src/ref.js" beforeDir="false" afterPath="$PROJECT_DIR$/node_modules/cytoscape-popper/src/ref.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/node_modules/cytoscape-popper/webpack.config.js" beforeDir="false" afterPath="$PROJECT_DIR$/node_modules/cytoscape-popper/webpack.config.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/my-cytoreact-app/src/FileUpload.js" beforeDir="false" afterPath="$PROJECT_DIR$/my-cytoreact-app/src/FileUpload.js" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -70,6 +50,8 @@
       <workItem from="1676141841716" duration="5207000" />
       <workItem from="1677199104413" duration="159000" />
       <workItem from="1677199526299" duration="315000" />
+      <workItem from="1677480218817" duration="595000" />
+      <workItem from="1677613405227" duration="936000" />
     </task>
     <servers />
   </component>
