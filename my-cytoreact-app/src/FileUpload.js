@@ -2,6 +2,7 @@ import { useState } from "react";
 import XMLParser from 'react-xml-parser';
 
 function FileUploadButton() {
+  // Variable selectedFile = File
 	const [selectedFile, setSelectedFile] = useState();
 
   // Target file as selectedFile
@@ -10,6 +11,7 @@ function FileUploadButton() {
 	};
 
   // Read in file
+  // Returns file content as string
 	const handleSubmission = () => {
     const reader = new FileReader();
     reader.readAsText(selectedFile);
@@ -19,6 +21,7 @@ function FileUploadButton() {
   };
 
   // Parse data
+  // Returns XML obj
   const parseData = (data) =>{
     var jsonDataFromXml = new XMLParser().parseFromString(data);
     console.log(jsonDataFromXml);
@@ -26,7 +29,7 @@ function FileUploadButton() {
 };
 
 return(
-   <div>
+   <div style={{ backgroundColor: "lightgray" }}>
         <input type="file" name="file" onChange={changeHandler} />
         <div>
             <button onClick={handleSubmission}>Submit</button>
