@@ -3,12 +3,10 @@ import FileUploadButton from './FileUpload';
 import popper from 'cytoscape-popper';
 import Cytoscape from 'cytoscape';
 import coseBilkent from 'cytoscape-cose-bilkent';
-import cose from 'cytoscape-cose-bilkent';
 import "./popper.css";
 
 Cytoscape.use(popper);
 Cytoscape.use(coseBilkent);
-Cytoscape.use(cose);
 
 // sample data
 const elements = [
@@ -57,15 +55,12 @@ const stylesheet = [
         css: {
             'text-valign': 'top',
             'text-halign': 'center',
-            'min-width': '50px',
-            'min-height': '50px'
         }
     },
     {
         selector: ':child',
         css: {
-            'background-color': 'black',
-            'position': ':parent'
+            'background-color': 'black'
         }
     },
     {
@@ -81,57 +76,55 @@ const stylesheet = [
 ];
 
 const style = 
-    {width: '1440px', height: '600px'}
+    {width: '1440px', height: '600px'};
 
 const pan = 
     {x:725, y:300};
 
 const layout = 
-    {name: 'cose', fit: true, randomize: false };
+    {name: 'grid', fit: true };
     
 function App() {
     return (
         <>
             <FileUploadButton/>
-            <div style={{ backgroundColor: "white" }}>
-                <CytoscapeComponent
-                elements={elements}
-                style={style}
-                stylesheet={stylesheet}
-                pan={pan}
-                layout={layout}
-                cy={cy => {
-                    cy.on("tap", "node", evt => {
-                        var node = evt.target;
-                        console.log("event", evt);
-                        console.log("target", node.data());
-                    })
-                    cy.elements().unbind("mouseover");
-                    cy.elements().bind("mouseover", (event) => {
-                        event.target.popperRefObj = event.target.popper({
-                            content: () => {
-                                let content = document.createElement("div");
+            <CytoscapeComponent
+            elements={elements}
+            style={style}
+            stylesheet={stylesheet}
+            pan={pan}
+            layout={layout}
+            cy={cy => {
+                cy.on("tap", "node", evt => {
+                    var node = evt.target;
+                    console.log("event", evt);
+                    console.log("target", node.data());
+                })
+                cy.elements().unbind("mouseover");
+                cy.elements().bind("mouseover", (event) => {
+                    event.target.popperRefObj = event.target.popper({
+                        content: () => {
+                            let content = document.createElement("div");
 
-                                if (event.target.data("type") !== "ellipse") {
-                                    content.classList.add("popper-div");
-                                    content.innerHTML = event.target.id();
-                                }
-                                document.body.appendChild(content);
-                                return content;
-                            },
-                        });
+                            if (event.target.data("type") !== "ellipse") {
+                                content.classList.add("popper-div");
+                                content.innerHTML = event.target.id();
+                            }
+                            document.body.appendChild(content);
+                            return content;
+                        },
                     });
+                });
 
-                    cy.elements().unbind("mouseout");
-                    cy.elements().bind("mouseout", (event) => {
-                        if (event.target.popper) {
-                            event.target.popperRefObj.state.elements.popper.remove();
-                            event.target.popperRefObj.destroy();
-                        }
-                    });
-                }}
-                />
-            </div>
+                cy.elements().unbind("mouseout");
+                cy.elements().bind("mouseout", (event) => {
+                    if (event.target.popper) {
+                        event.target.popperRefObj.state.elements.popper.remove();
+                        event.target.popperRefObj.destroy();
+                    }
+                });
+            }}
+            />
         </>);
 }
 
