@@ -30,7 +30,7 @@ const elements = [
     {data: {id: 'disk', type: 'rectangle', label: 'Disk'}},
 
     // Edges
-    {data: {id: 'disk-to-host1', source: 'disk', target: 'host1', label: ''}},
+    {data: {id: 'disk-to-host1', source: 'disk', target: 'host1', label: 'link3'}},
     {data: {id: 'host1-connection', source: 'host1', target: 'connection', label: 'Link1'}, style: {width: '10px'}},
     {data: {id: 'host2-connection', source: 'host2', target: 'connection', label: 'Link2'}},
 ];
