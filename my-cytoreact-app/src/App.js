@@ -1,37 +1,35 @@
 import CytoscapeComponent from 'react-cytoscapejs';
 import FileUploadButton from './FileUpload';
 import popper from 'cytoscape-popper';
-import cytoscape from 'cytoscape';
+import Cytoscape from 'cytoscape';
+import coseBilkent from 'cytoscape-cose-bilkent';
+import cose from 'cytoscape-cose-bilkent';
 import "./popper.css";
-import data from './data.json';
 
-cytoscape.use(popper);
+Cytoscape.use(popper);
+Cytoscape.use(coseBilkent);
+Cytoscape.use(cose);
 
 // sample data
 const elements = [
     // Nodes
+    // G1
     {data: {id: 'host1', type: 'rectangle', label: 'Host 1', size: 'big'}},
+    {data: {id: 'h1c1', parent: 'host1', type: 'ellipse', label: 'core 1'},style: {'background-color': 'red'}},
+    {data: {id: 'h1c2', parent: 'host1', type: 'ellipse', label: 'core 2'}},
+    {data: {id: 'h1c3', parent: 'host1', type: 'ellipse', label: 'core 3'}},
+    {data: {id: 'h1c4', parent: 'host1', type: 'ellipse', label: 'core 4'},style: {'background-color': 'blue'}},
+
+    // G2
     {data: {id: 'host2', type: 'rectangle', label: 'Host 2'}, style: {'background-color': 'lightgreen'}},
-    {
-        data: {id: 'h1c1', parent: 'host1', type: 'ellipse', label: 'core 1'},
-        position: {x: 215, y: 5},
-        style: {'background-color': 'red'}
-    },
-    {data: {id: 'h1c2', parent: 'host1', type: 'ellipse', label: 'core 2'}, position: {x: 265, y: 5}},
-    {data: {id: 'h1c3', parent: 'host1', type: 'ellipse', label: 'core 3'}, position: {x: 215, y: 55}},
-    {
-        data: {id: 'h1c4', parent: 'host1', type: 'ellipse', label: 'core 4'},
-        position: {x: 265, y: 55},
-        style: {'background-color': 'blue'}
-    },
-    {data: {id: 'h2c1', parent: 'host2', type: 'ellipse', label: 'core 1'}, position: {x: 700, y: 105}},
-    {data: {id: 'h2c2', parent: 'host2', type: 'ellipse', label: 'core 2'}, position: {x: 750, y: 105}},
-    {
-        data: {id: 'connection', type: 'diamond', label: ''},
-        position: {x: 500, y: 75},
-        style: {'background-color': 'purple'}
-    },
-    {data: {id: 'disk', type: 'rectangle', label: 'Disk'}, position: {x: 15, y: 5}},
+    {data: {id: 'h2c1', parent: 'host2', type: 'ellipse', label: 'core 1'}},
+    {data: {id: 'h2c2', parent: 'host2', type: 'ellipse', label: 'core 2'}},
+    
+    // G3
+    {data: {id: 'connection', type: 'diamond', label: ''},style: {'background-color': 'purple'}},
+    
+    // G4
+    {data: {id: 'disk', type: 'rectangle', label: 'Disk'}},
 
     // Edges
     {data: {id: 'disk-to-host1', source: 'disk', target: 'host1', label: ''}},
@@ -48,18 +46,26 @@ const stylesheet = [
         }
     },
     {
-        selector: ':parent',
-        css: {
-            'text-valign': 'top',
-            'text-halign': 'center',
-            'padding': '60px',
-        }
-    },
-    {
         selector: 'edge',
         css: {
             'curve-style': 'bezier',
             'label': 'data(label)'
+        }
+    },
+    {
+        selector: ':parent',
+        css: {
+            'text-valign': 'top',
+            'text-halign': 'center',
+            'min-width': '50px',
+            'min-height': '50px'
+        }
+    },
+    {
+        selector: ':child',
+        css: {
+            'background-color': 'black',
+            'position': ':parent'
         }
     },
     {
@@ -74,18 +80,26 @@ const stylesheet = [
     },
 ];
 
-const handleClick = () => {
-    console.log("I've been clicked")
-}
+const style = 
+    {width: '1440px', height: '600px'}
 
+const pan = 
+    {x:725, y:300};
+
+const layout = 
+    {name: 'cose', fit: true, randomize: false };
+    
 function App() {
     return (
         <>
             <FileUploadButton/>
-            <CytoscapeComponent
+            <div style={{ backgroundColor: "white" }}>
+                <CytoscapeComponent
                 elements={elements}
-                style={{width: '1800px', height: '1800px'}}
+                style={style}
                 stylesheet={stylesheet}
+                pan={pan}
+                layout={layout}
                 cy={cy => {
                     cy.on("tap", "node", evt => {
                         var node = evt.target;
@@ -116,7 +130,8 @@ function App() {
                         }
                     });
                 }}
-            />
+                />
+            </div>
         </>);
 }
 
