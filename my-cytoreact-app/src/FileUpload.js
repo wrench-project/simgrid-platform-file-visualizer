@@ -23,27 +23,31 @@ function FileUploadButton() {
             var jsonDataFromXml = new XMLParser().parseFromString(data);
             console.log(jsonDataFromXml);
 
-            iterateJson(jsonDataFromXml);
-
+            const childList = [];
+            iterateJson(jsonDataFromXml, childList);
+            console.log(childList);
         }
 
-        function iterateJson(json) {
+        function iterateJson(json, childList) {
             for (const key in json) {
                 if (json.hasOwnProperty(key)) {
                     const value = json[key];
 
                     if (key === "name") {
-                        // If the value is an object, recursively iterate through its keys
                         if (typeof value === "object") {
-                            iterateJson(value);
+                            // If the value is an object, recursively iterate through its keys
+                            iterateJson(value, childList);
                         } else {
                             // If the value is not an object, it's a leaf node
-                            console.log(`Found child element: ${key} = ${value}`);
-                            console.log(json.attributes);
+                            const child = {
+                                name: value,
+                                attributes: json.attributes
+                            };
+                            childList.push(child);
                         }
                     } else if (typeof value === "object") {
                         // If the value is an object, recursively iterate through its keys
-                        iterateJson(value);
+                        iterateJson(value, childList);
                     }
                 }
             }
