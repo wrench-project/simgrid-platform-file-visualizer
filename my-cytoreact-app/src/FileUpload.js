@@ -20,7 +20,7 @@ function FileUploadButton() {
 
         // Parse data
         const parseData = (data) => {
-            var jsonDataFromXml = new XMLParser().parseFromString(data);
+            const jsonDataFromXml = new XMLParser().parseFromString(data);
             console.log(jsonDataFromXml);
 
             const childList = [];
@@ -38,12 +38,14 @@ function FileUploadButton() {
                             // If the value is an object, recursively iterate through its keys
                             iterateJson(value, childList);
                         } else {
-                            // If the value is not an object, it's a leaf node
-                            const child = {
-                                name: value,
-                                attributes: json.attributes
-                            };
-                            childList.push(child);
+                            // Ignore DOCTYPE and --
+                            if (value !== "DOCTYPE" && value !== "--") {
+                                const child = {
+                                    name: value,
+                                    attributes: json.attributes
+                                };
+                                childList.push(child);
+                            }
                         }
                     } else if (typeof value === "object") {
                         // If the value is an object, recursively iterate through its keys
