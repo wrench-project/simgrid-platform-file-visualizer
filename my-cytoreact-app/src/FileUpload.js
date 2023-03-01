@@ -39,7 +39,7 @@ function FileUploadButton() {
                             iterateJson(value, childList);
                         } else {
                             // Ignore DOCTYPE and --
-                            if (value !== "DOCTYPE" && value !== "--") {
+                            if (value !== "DOCTYPE" && value !== "--" && value !== "---") {
                                 const child = {
                                     name: value,
                                     attributes: json.attributes
