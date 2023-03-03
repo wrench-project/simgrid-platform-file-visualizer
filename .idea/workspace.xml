@@ -6,6 +6,7 @@
   <component name="ChangeListManager">
     <list default="true" id="16acee19-c3f1-4486-87dd-22168e6906e3" name="Changes" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/my-cytoreact-app/src/App.js" beforeDir="false" afterPath="$PROJECT_DIR$/my-cytoreact-app/src/App.js" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/my-cytoreact-app/src/FileUpload.js" beforeDir="false" afterPath="$PROJECT_DIR$/my-cytoreact-app/src/FileUpload.js" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
@@ -53,7 +54,8 @@
       <workItem from="1677480218817" duration="595000" />
       <workItem from="1677613405227" duration="1626000" />
       <workItem from="1677637497887" duration="1005000" />
-      <workItem from="1677822851865" duration="1387000" />
+      <workItem from="1677822851865" duration="4393000" />
+      <workItem from="1677873768002" duration="1766000" />
     </task>
     <servers />
   </component>

@@ -1,7 +1,7 @@
 import {useState} from "react";
 import XMLParser from 'react-xml-parser';
 
-function FileUploadButton() {
+function FileUploadButton(props) {
     const [selectedFile, setSelectedFile] = useState();
 
     // Target file as selectedFile
@@ -24,11 +24,14 @@ function FileUploadButton() {
             console.log(jsonDataFromXml);
 
             const elements = [];
-            iterateJson(jsonDataFromXml, elements);
+            const edges = [];
+            iterateJson(jsonDataFromXml, elements, edges);
             console.log(elements);
+
+            props.handleElements(elements, edges);
         }
 
-        function iterateJson(json, elements) {
+        function iterateJson(json, elements, edges) {
             for (const key in json) {
                 if (json.hasOwnProperty(key)) {
                     const value = json[key];
@@ -36,49 +39,53 @@ function FileUploadButton() {
                     if (key === "name") {
                         if (typeof value === "object") {
                             // If the value is an object, recursively iterate through its keys
-                            iterateJson(value, elements);
+                            iterateJson(value, elements, edges);
                         } else {
                             // Ignore DOCTYPE and --
-                            if (value !== "DOCTYPE" && value !== "--" && value !== "---") {
+                            if (value !== "DOCTYPE" && value !== "--" && value !== "---" && value !== "platform") {
                                 const element = {
                                     name: value,
                                     attributes: json.attributes
                                 };
-                                if (json.attributes.speed) {
+                                if (element.name === 'host') {
                                     elements.push(
                                         {
                                             data: {
                                                 id: json.attributes.id,
+                                                label: element.name,
                                                 name: element.name,
-                                                speed: json.attributes.speed
-                                            }})
-                                } else if (json.attributes.latency) {
-                                    elements.push(
-                                        {
-                                            data: {
-                                                id: json.attributes.id,
-                                                name: element.name,
-                                                bandwidth: json.attributes.bandwidth,
-                                                latency: json.attributes.latency
+                                                speed: json.attributes.speed,
+                                                type: 'rectangle',
                                             }})
                                 } else if (json.attributes.src) {
                                     elements.push(
                                         {
                                             data: {
                                                 id: json.attributes.id,
+                                                label: element.name,
                                                 name: element.name,
+                                                bandwidth: json.attributes.bandwidth,
+                                                latency: json.attributes.latency,
                                                 source: json.attributes.src,
-                                                target: json.attributes.dst
+                                                target: json.attributes.dst,
+                                            }})
+                                } else if (element.name === 'link_ctn') {
+                                    edges.push(
+                                        {
+                                            data: {
+                                                id: json.attributes.id,
+                                                source: json.attributes.src,
+                                                target: json.attributes.dst,
                                             }})
                                 } else {
-                                    elements.push({data: {id: json.attributes.id, name: element.name}});
+                                    elements.push({data: {id: json.attributes.id, name: element.name,  label: element.name}});
                                 }
                             }
 
                         }
                     } else if (typeof value === "object") {
                         // If the value is an object, recursively iterate through its keys
-                        iterateJson(value, elements);
+                        iterateJson(value, elements, edges);
                     }
                 }
             }

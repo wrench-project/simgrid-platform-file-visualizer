@@ -4,6 +4,7 @@ import popper from 'cytoscape-popper';
 import cytoscape from 'cytoscape';
 import "./popper.css";
 import data from './data.json';
+import {useState} from "react";
 
 cytoscape.use(popper);
 
@@ -78,10 +79,15 @@ const handleClick = () => {
     console.log("I've been clicked")
 }
 
+
 function App() {
+    const [elements, setElements] = useState([]);
+    const handleElements = (newElements) => {
+        setElements(newElements);
+    }
     return (
         <>
-            <FileUploadButton/>
+            <FileUploadButton handleElements={handleElements}/>
             <CytoscapeComponent
                 elements={elements}
                 style={{width: '1800px', height: '1800px'}}
