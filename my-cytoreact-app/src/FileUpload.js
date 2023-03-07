@@ -3,11 +3,18 @@ import XMLParser from 'react-xml-parser';
 
 function FileUploadButton(props) {
     const [selectedFile, setSelectedFile] = useState();
+    const [elementsGraph, setElementsGraph] = useState();
+
+    const handleElementsGraph = (newElementsGraph) => {
+        setElementsGraph(newElementsGraph);
+        console.log(elementsGraph);
+    }
 
     // Target file as selectedFile
     const changeHandler = (event) => {
         setSelectedFile(event.target.files[0]);
     };
+
 
     // Read in file
     const handleSubmission = () => {
@@ -23,11 +30,13 @@ function FileUploadButton(props) {
             const jsonDataFromXml = new XMLParser().parseFromString(data);
             console.log(jsonDataFromXml);
 
+            // main item to be passed
             const elements = [];
             iterateJson(jsonDataFromXml, elements);
             console.log(elements);
 
             props.handleElements(elements);
+            handleElementsGraph(elements);
         }
 
         function iterateJson(json, elements) {
@@ -44,6 +53,7 @@ function FileUploadButton(props) {
                                     const element = {
                                         name: value,
                                         attributes: json.attributes,
+                                        children: [],
                                     };
                                     switch (element.name) {
                                         case "host":

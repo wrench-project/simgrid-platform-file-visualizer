@@ -3,45 +3,10 @@ import FileUploadButton from './FileUpload';
 import popper from 'cytoscape-popper';
 import cytoscape from 'cytoscape';
 import "./popper.css";
-import data from './data.json';
-import {useState} from "react";
+import { useState } from "react";
 
 cytoscape.use(popper);
 
-const stylesheet = [
-    {
-        selector: 'node',
-        css: {
-            'shape': 'data(type)',
-            'label': 'data(label)'
-        }
-    },
-    {
-        selector: ':parent',
-        css: {
-            'text-valign': 'top',
-            'text-halign': 'center',
-            'padding': '60px',
-        }
-    },
-    {
-        selector: 'edge',
-        css: {
-            'curve-style': 'bezier',
-            'label': 'data(label)'
-        }
-    },
-    {
-        selector: '#disk',
-        css: {
-            'background-image': 'https://cdn-icons-png.flaticon.com/512/227/227889.png',
-            'height': 120,
-            'width': 120,
-            'background-fit': 'contain',
-            'background-color': '#ffffff',
-        }
-    },
-];
 
 const handleClick = () => {
     console.log("I've been clicked")
@@ -60,7 +25,7 @@ function App() {
             <CytoscapeComponent
                 elements={elements}
                 style={{width: '1800px', height: '1800px'}}
-                stylesheet={stylesheet}
+                //  stylesheet={stylesheet}
                 cy={cy => {
                     cy.on("tap", "node", evt => {
                         var node = evt.target;
