@@ -80,6 +80,7 @@ const handleClick = () => {
 }
 
 
+
 function App() {
     const [elements, setElements] = useState([]);
     const handleElements = (newElements) => {
@@ -104,9 +105,12 @@ function App() {
                             content: () => {
                                 let content = document.createElement("div");
 
-                                if (event.target.data("type") !== "ellipse") {
+                                if (event.target.data("type") === "rectangle") {
                                     content.classList.add("popper-div");
-                                    content.innerHTML = event.target.id();
+                                    content.innerHTML = event.target.data().speed;
+                                } else if (event.target.data("type") !== "rectangle") {
+                                    content.classList.add("popper-div");
+                                    content.innerHTML = event.target.data().name;
                                 }
                                 document.body.appendChild(content);
                                 return content;
