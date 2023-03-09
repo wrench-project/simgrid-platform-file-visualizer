@@ -5,10 +5,10 @@ function FileUploadButton(props) {
     const [selectedFile, setSelectedFile] = useState();
     const [elementsGraph, setElementsGraph] = useState();
 
-    const handleElementsGraph = (newElementsGraph) => {
-        setElementsGraph(newElementsGraph);
-        console.log(elementsGraph);
-    }
+    // const handleElementsGraph = (newElementsGraph) => {
+    //     setElementsGraph(newElementsGraph);
+    //     console.log(elementsGraph);
+    // }
 
     // Target file as selectedFile
     const changeHandler = (event) => {
@@ -28,18 +28,18 @@ function FileUploadButton(props) {
         // Parse data
         const parseData = (data) => {
             const jsonDataFromXml = new XMLParser().parseFromString(data);
-            console.log(jsonDataFromXml);
 
             // main item to be passed
             const elements = [];
-            iterateJson(jsonDataFromXml, elements);
+            const elementsData = [];
+            iterateJson(jsonDataFromXml, elements, elementsData);
+            console.log(elementsData);
             console.log(elements);
 
             props.handleElements(elements);
-            handleElementsGraph(elements);
         }
 
-        function iterateJson(json, elements) {
+        function iterateJson(json, elements, elementsData) {
             for (const key in json) {
                 if (json.hasOwnProperty(key)) {
                     const value = json[key];
@@ -47,36 +47,64 @@ function FileUploadButton(props) {
                     switch (key) {
                         case "name":
                             if (typeof value === "object") {
-                                iterateJson(value, elements);
+                                iterateJson(value, elements, elementsData);
                             } else {
                                 if (!["DOCTYPE", "--", "---", "platform"].includes(value)) {
                                     const element = {
                                         name: value,
                                         attributes: json.attributes,
-                                        children: [],
                                     };
                                     switch (element.name) {
                                         case "host":
                                             elements.push({
                                                 data: {
                                                     id: json.attributes.id,
-                                                    label: element.name,
+                                                    label: json.attributes.id,
                                                     name: element.name,
                                                     speed: json.attributes.speed,
                                                     type: "rectangle",
                                                 },
                                             });
                                             break;
-                                        case "route":
+                                        case "link":
+                                            elementsData.push({
+                                                data: {
+                                                    id: json.attributes.id,
+                                                    label: json.attributes.id,
+                                                    name: element.name,
+                                                    bandwidth: json.attributes.bandwidth,
+                                                    latency: json.attributes.latency,
+                                                },
+                                            });
+                                            break;
+                                        case "router":
                                             elements.push({
                                                 data: {
                                                     id: json.attributes.id,
-                                                    label: "link",
-                                                    name: "link",
-                                                    source: json.attributes.src,
-                                                    target: json.attributes.dst,
+                                                    name: element.name,
+                                                    label: json.attributes.id,
                                                 },
-                                            });
+                                            })
+                                        case "route":
+                                            if (json.children && json.children.length === 1) {
+                                                elements.push({
+                                                    data: {
+                                                        id: json.attributes.id,
+                                                        label: json.attributes.id,
+                                                        name: element.name,
+                                                        source: json.attributes.src,
+                                                        target: json.attributes.dst,
+                                                    },
+                                                });
+                                            } else {
+                                                elementsData.push({
+                                                    data: {
+                                                        id: json.attributes.id,
+                                                        label: json.attributes.id,
+                                                        name: element.name,
+                                                    }
+                                                });
+                                            }
                                             break;
                                         default:
                                             elements.push({
@@ -84,17 +112,17 @@ function FileUploadButton(props) {
                                                     id: json.attributes.id,
                                                     name: element.name,
                                                     label: element.name,
-                                                    bandwidth: json.attributes.bandwidth,
-                                                    latency: json.attributes.latency,
                                                 },
                                             });
                                             break;
-                                    }}}
+                                    }
+                                }
+                            }
                             break;
                         default:
                             // If the value is an object, recursively iterate through its keys
                             if (typeof value === "object") {
-                                iterateJson(value, elements);
+                                iterateJson(value, elements, elementsData);
                             }
                             break;
                     }
