@@ -25,16 +25,15 @@ function FileUploadButton(props) {
 
             // main item to be passed
             const elements = [];
-            const elementsData = [];
 
 
-            iterateJson(jsonDataFromXml, elements, elementsData);
+            iterateJson(jsonDataFromXml, elements);
             console.log(elements);
 
             props.handleElements(elements);
         }
 
-        function iterateJson(json, elements, elementsData) {
+        function iterateJson(json, elements) {
             for (const key in json) {
                 if (json.hasOwnProperty(key)) {
                     const value = json[key];
@@ -42,7 +41,7 @@ function FileUploadButton(props) {
                     switch (key) {
                         case "name":
                             if (typeof value === "object") {
-                                iterateJson(value, elements, elementsData);
+                                iterateJson(value, elements);
                             } else {
                                 if (!["DOCTYPE", "--", "---", "platform"].includes(value)) {
                                     const element = {
@@ -188,7 +187,7 @@ function FileUploadButton(props) {
                         default:
                             // If the value is an object, recursively iterate through its keys
                             if (typeof value === "object") {
-                                iterateJson(value, elements, elementsData);
+                                iterateJson(value, elements);
                             }
                             break;
                     }
