@@ -79,96 +79,35 @@ function FileUploadButton(props) {
                                                     name: element.name,
                                                     label: json.attributes.id,
                                                 },
-                                            })
+                                            });
+                                            break;
                                         case "route":
-                                            if (json.children && json.children.length > 1) {
-                                                // Connect the source to the first child
-                                                const source = json.attributes.src;
-                                                const target = json.children[0].attributes.id;
+                                            const routeSrc = json.attributes.src;
+                                            const routeDst = json.attributes.dst;
+                                            if (json.children.length > 1) {
+                                                iterateJson(value, elements);
+                                            } else if (json.children.length === 1) {
+                                                const childID = json.children[0].attributes.id;
+                                                // Edge from route.src - child.id
                                                 elements.push({
                                                     data: {
-                                                        id: `${source}-${target}`,
-                                                        label: `${source} to ${target}`,
+                                                        id: `${routeSrc}-${childID}`,
+                                                        label: `${routeSrc}-${childID}`,
                                                         name: element.name,
-                                                        source: source,
-                                                        target: target,
-                                                    },
-                                                });
-
-                                                // Connect each child to the next child
-                                                for (let i = 0; i < json.children.length - 1; i++) {
-                                                    const sourceId = json.children[i].attributes.id;
-                                                    const targetId = json.children[i + 1].attributes.id;
-                                                    if (sourceId && targetId) {
-                                                        elements.push({
-                                                            data: {
-                                                                id: `${sourceId}-${targetId}`,
-                                                                label: `${sourceId} to ${targetId}`,
-                                                                name: element.name,
-                                                                source: sourceId,
-                                                                target: targetId,
-                                                            },
-                                                        });
+                                                        source: routeSrc,
+                                                        target: childID
                                                     }
-                                                }
-
-                                                // Connect the last child to the destination
-                                                const lastChild = json.children[json.children.length - 1];
-                                                const lastChildId = lastChild.attributes.id;
-                                                if (lastChildId && json.attributes.dst) {
-                                                    elements.push({
-                                                        data: {
-                                                            id: `${lastChildId}-${json.attributes.dst}`,
-                                                            label: `${lastChildId} to ${json.attributes.dst}`,
-                                                            name: element.name,
-                                                            source: lastChildId,
-                                                            target: json.attributes.dst,
-                                                        },
-                                                    });
-                                                }
-                                            } else if (json.children && json.children.length === 1) {
-                                                // If there's only one child, connect the source to the child and the child to the destination
-                                                const source = json.attributes.src;
-                                                const target = json.children[0].attributes.id;
-                                                if (source && target) {
-                                                    elements.push({
-                                                        data: {
-                                                            id: `${source}-${target}`,
-                                                            label: `${source} to ${target}`,
-                                                            name: element.name,
-                                                            source: source,
-                                                            target: target,
-                                                        },
-                                                    });
-                                                }
-                                                const child = json.children[0];
-                                                const childId = child.attributes.id;
-                                                if (childId && json.attributes.dst) {
-                                                    elements.push({
-                                                        data: {
-                                                            id: `${childId}-${json.attributes.dst}`,
-                                                            label: `${childId} to ${json.attributes.dst}`,
-                                                            name: element.name,
-                                                            source: childId,
-                                                            target: json.attributes.dst,
-                                                        },
-                                                    });
-                                                }
-                                            } else {
-                                                // If there are no children, connect the source to the destination
-                                                const source = json.attributes.src;
-                                                const target = json.attributes.dst;
-                                                if (source && target) {
-                                                    elements.push({
-                                                        data: {
-                                                            id: `${source}-${target}`,
-                                                            label: `${source} to ${target}`,
-                                                            name: element.name,
-                                                            source: source,
-                                                            target: target,
-                                                        },
-                                                    });
-                                                }
+                                                })
+                                                // Edge from child.id - route.src
+                                                elements.push({
+                                                    data: {
+                                                        id: `${childID}-${routeDst}`,
+                                                        label: `${childID}-${routeDst}`,
+                                                        name: element.name,
+                                                        source: childID,
+                                                        target: routeDst
+                                                    }
+                                                })
                                             }
                                             break;
                                         default:
