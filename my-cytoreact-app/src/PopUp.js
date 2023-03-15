@@ -1,6 +1,7 @@
 import Modal from '@mui/material/Modal';
 import Box from '@mui/material/Box';
 
+// Src - https://codesandbox.io/s/766my2?file=/demo.js:546-587
 const style = {
     position: 'absolute',
     top: '50%',
@@ -13,6 +14,7 @@ const style = {
     p: 4,
 };
 
+// Takes in a node object, open state and close state from app.js
 export default function PopUp({ obj, open, close }) {
     return (
         <div>
