@@ -1,12 +1,8 @@
+import { useState } from 'react';
 import CytoscapeComponent from 'react-cytoscapejs';
 import FileUploadButton from './FileUpload';
-import popper from 'cytoscape-popper';
-import Cytoscape from 'cytoscape';
-import coseBilkent from 'cytoscape-cose-bilkent';
-import "./popper.css";
-
-Cytoscape.use(popper);
-Cytoscape.use(coseBilkent);
+import Modal from '@mui/material/Modal';
+import Box from '@mui/material/Box';
 
 // sample data
 const elements = [
@@ -83,11 +79,47 @@ const pan =
 
 const layout = 
     {name: 'grid', fit: true };
-    
+
+const styleBox = {
+    position: 'absolute',
+    top: '50%',
+    left: '50%',
+    transform: 'translate(-50%, -50%)',
+    width: 400,
+    bgcolor: 'background.paper',
+    border: '2px solid #000',
+    boxShadow: 24,
+    p: 4,
+    };
+
+var obj = {};
+
+// // Modal 
+// function PopUp({ obj, open }){
+//     const [open, setOpen] = useState(false);
+//     const handleClose = () => setOpen(false);
+//     return (
+//         <Modal open={open} onClose={!open}>
+//             <Box sx={styleBox}>
+//                 {obj.id}
+//             </Box>
+//         </Modal>
+//     )
+// };
+
 function App() {
+    const [open, setOpen] = useState(false);
+    const handleOpen = () => setOpen(true);
+    const handleClose = () => setOpen(false);
+
     return (
         <>
             <FileUploadButton/>
+            <Modal open={open} onClose={handleClose}>
+                <Box sx={styleBox}>
+                    {obj.id}
+                </Box>
+            </Modal>
             <CytoscapeComponent
             elements={elements}
             style={style}
@@ -95,34 +127,15 @@ function App() {
             pan={pan}
             layout={layout}
             cy={cy => {
-                cy.on("tap", "node", evt => {
-                    var node = evt.target;
-                    console.log("event", evt);
-                    console.log("target", node.data());
-                })
-                cy.elements().unbind("mouseover");
-                cy.elements().bind("mouseover", (event) => {
-                    event.target.popperRefObj = event.target.popper({
-                        content: () => {
-                            let content = document.createElement("div");
-
-                            if (event.target.data("type") !== "ellipse") {
-                                content.classList.add("popper-div");
-                                content.innerHTML = event.target.id();
-                            }
-                            document.body.appendChild(content);
-                            return content;
-                        },
-                    });
-                });
-
-                cy.elements().unbind("mouseout");
-                cy.elements().bind("mouseout", (event) => {
-                    if (event.target.popper) {
-                        event.target.popperRefObj.state.elements.popper.remove();
-                        event.target.popperRefObj.destroy();
+                cy.on("tap", evt => {
+                    try {
+                        obj = evt.target.data();
+                        handleOpen();
+                    } catch (error) {
+                        console.log("Error; Not a node")
                     }
-                });
+                    
+                })
             }}
             />
         </>);
