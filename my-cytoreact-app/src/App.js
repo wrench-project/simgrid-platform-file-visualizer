@@ -1,8 +1,7 @@
 import { useState } from 'react';
 import CytoscapeComponent from 'react-cytoscapejs';
 import FileUploadButton from './FileUpload';
-import Modal from '@mui/material/Modal';
-import Box from '@mui/material/Box';
+import PopUp from './PopUp';
 
 // sample data
 const elements = [
@@ -80,32 +79,7 @@ const pan =
 const layout = 
     {name: 'grid', fit: true };
 
-const styleBox = {
-    position: 'absolute',
-    top: '50%',
-    left: '50%',
-    transform: 'translate(-50%, -50%)',
-    width: 400,
-    bgcolor: 'background.paper',
-    border: '2px solid #000',
-    boxShadow: 24,
-    p: 4,
-    };
-
 var obj = {};
-
-// // Modal 
-// function PopUp({ obj, open }){
-//     const [open, setOpen] = useState(false);
-//     const handleClose = () => setOpen(false);
-//     return (
-//         <Modal open={open} onClose={!open}>
-//             <Box sx={styleBox}>
-//                 {obj.id}
-//             </Box>
-//         </Modal>
-//     )
-// };
 
 function App() {
     const [open, setOpen] = useState(false);
@@ -115,11 +89,7 @@ function App() {
     return (
         <>
             <FileUploadButton/>
-            <Modal open={open} onClose={handleClose}>
-                <Box sx={styleBox}>
-                    {obj.id}
-                </Box>
-            </Modal>
+            <PopUp obj={obj} open={open} close={handleClose}/>
             <CytoscapeComponent
             elements={elements}
             style={style}
@@ -138,7 +108,8 @@ function App() {
                 })
             }}
             />
-        </>);
+        </>
+    );
 }
 
 export default App;
