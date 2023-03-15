@@ -94,13 +94,17 @@ function App() {
             elements={elements}
             style={style}
             stylesheet={stylesheet}
-            pan={pan}
+            // pan={pan}
             layout={layout}
             cy={cy => {
-                cy.on("tap", evt => {
+                cy.on("tap", (evt) => {
                     try {
+                        var objTest = evt.target    // Testing purposes. Consider deleting after
+                        console.log(objTest)        // Testing purposes. Consider deleting after
                         obj = evt.target.data();
-                        handleOpen();
+                        if (obj.id !== null) {
+                            handleOpen();
+                        } 
                     } catch (error) {
                         console.log("Error; Not a node")
                     }

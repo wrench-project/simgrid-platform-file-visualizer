@@ -1,7 +1,7 @@
 import Modal from '@mui/material/Modal';
 import Box from '@mui/material/Box';
 
-// Src - https://codesandbox.io/s/766my2?file=/demo.js:546-587
+// Src and demo - https://codesandbox.io/s/766my2?file=/demo.js:546-587
 const style = {
     position: 'absolute',
     top: '50%',
@@ -14,14 +14,24 @@ const style = {
     p: 4,
 };
 
+
 // Takes in a node object, open state and close state from app.js
 export default function PopUp({ obj, open, close }) {
+    const DisplayObject = ({obj}) => {
+        return (
+            <div>
+                {Object.entries(obj).map(([key,val]) =>
+                    <p key={key}>{key}: {val}</p>
+                )}
+            </div>
+        )
+    }
     return (
         <div>
            <Modal open={open} onClose={close}>
                 <Box sx={style}>
-                    <p>{obj.id}</p>
-                    <p>{obj.label}</p>
+                    <h2>{obj.id} Information</h2>
+                    <DisplayObject obj={obj}/>
                 </Box>
             </Modal> 
         </div>
