@@ -108,9 +108,11 @@ function App() {
                         var objTest = evt.target    // Testing purposes. Consider deleting after
                         console.log(objTest)        // Testing purposes. Consider deleting after
                         obj = evt.target.data();
-                        if (obj.id !== null) {
+                        if (obj !== null) {
                             handleOpen();
-                        } 
+                        } else {
+                            handleClose();
+                        }
                     } catch (error) {
                         console.log("Error; Not a node")
                     }
