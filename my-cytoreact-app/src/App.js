@@ -19,7 +19,7 @@ const elements = [
     {data: {id: 'h2c2', eleType: 'Core', parent: 'host2', type: 'ellipse', label: 'core 2'}},
     
     // G3
-    {data: {id: 'connection', eleType: 'extra', type: 'diamond', label: ''},style: {'background-color': 'purple'}},
+    {data: {id: 'connection', eleType: 'extra', type: 'diamond', label: 'connection'},style: {'background-color': 'purple'}},
     
     // G4
     {data: {id: 'disk1', eleType: 'disk', type: 'rectangle', label: 'Disk'}},
@@ -41,7 +41,6 @@ const stylesheet = [
         selector: 'edge',
         css: {
             'curve-style': 'bezier',
-            'label': 'data(label)'
         }
     },
     {
@@ -59,15 +58,22 @@ const stylesheet = [
         }
     },
     {
-        selector: '#disk',
+        selector: '#disk1',
         css: {
             'background-image': 'https://cdn-icons-png.flaticon.com/512/227/227889.png',
             'height': 120,
             'width': 120,
             'background-fit': 'contain',
             'background-color': '#ffffff',
+            'label': 'data(label)'
         }
     },
+    {
+        selector: '#connection', 
+        css: {
+            'label': 'data(label)'
+        }
+    }
 ];
 
 const style = 
