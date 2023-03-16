@@ -32,23 +32,37 @@ export default function PopUp({ obj, open, close }) {
     // }
 
     const DisplayObject = ({obj}) => {
-        if (obj.eleType === 'Host') {
+        switch (obj.eleType) {
+            case 'Host':
+                return (
+                    <div>
+                        <p>Tag: {obj.eleType}</p>
+                        <p>ID: {obj.id}</p>
+                        <p>Cores: {obj.cores}</p>
+                        <p>Speed: {obj.speed}</p>
+                    </div>
+                )
+            case 'Link': 
+                return (
+                    <div>
+                        <p>Tag: {obj.eleType}</p>
+                        <p>ID: {obj.id}</p>
+                        <p>Bandwidth: {obj.bandwidth}</p>
+                        <p>Latency: {obj.latency}</p>
+                    </div>
+                )
+            case 'Core':
+                return (
+                    <div>
+                        <p>Tag: {obj.eleType}</p>
+                        <p>Parent: {obj.parent}</p>
+                    </div>
+                )
+            default: 
             return (
                 <div>
                     <p>Tag: {obj.eleType}</p>
-                    <p>ID: {obj.id}</p>
-                    <p>Cores: {obj.cores}</p>
-                    <p>Speed: {obj.speed}</p>
                 </div>
-            )
-        } else if (obj.eleType === 'Link') {
-            return (
-            <div>
-                <p>Tag: {obj.eleType}</p>
-                <p>ID: {obj.id}</p>
-                <p>Bandwidth: {obj.bandwidth}</p>
-                <p>Latency: {obj.latency}</p>
-            </div>
             )
         }
     }
