@@ -1,6 +1,7 @@
 import Modal from '@mui/material/Modal';
 import Box from '@mui/material/Box';
 
+// Box style
 // Src and demo - https://codesandbox.io/s/766my2?file=/demo.js:546-587
 const style = {
     position: 'absolute',
@@ -17,15 +18,42 @@ const style = {
 
 // Takes in a node object, open state and close state from app.js
 export default function PopUp({ obj, open, close }) {
+
+    // // Takes node object from props, passes to const DisplayObject as attribute
+    // // Loops through object attribute. (Should be object data). Display in a <p> tag
+    // const DisplayObject = ({obj}) => {
+    //     return (
+    //         <div>
+    //             {Object.entries(obj).map(([key,val]) =>
+    //                 <p key={key}>{key}: {val}</p>
+    //             )}
+    //         </div>
+    //     )
+    // }
+
     const DisplayObject = ({obj}) => {
-        return (
+        if (obj.eleType === 'Host') {
+            return (
+                <div>
+                    <p>Tag: {obj.eleType}</p>
+                    <p>ID: {obj.id}</p>
+                    <p>Cores: {obj.cores}</p>
+                    <p>Speed: {obj.speed}</p>
+                </div>
+            )
+        } else if (obj.eleType === 'Link') {
+            return (
             <div>
-                {Object.entries(obj).map(([key,val]) =>
-                    <p key={key}>{key}: {val}</p>
-                )}
+                <p>Tag: {obj.eleType}</p>
+                <p>ID: {obj.id}</p>
+                <p>Bandwidth: {obj.bandwidth}</p>
+                <p>Latency: {obj.latency}</p>
             </div>
-        )
+            )
+        }
     }
+
+    // Renders Modal, displaying node/link data attribute
     return (
         <div>
            <Modal open={open} onClose={close}>
