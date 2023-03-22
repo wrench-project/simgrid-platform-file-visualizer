@@ -51,6 +51,22 @@ export default function PopUp({ obj, open, close }) {
                         <p>Latency: {obj.latency}</p>
                     </div>
                 )
+            case 'route':
+                return (
+                    <div>
+                        <p>Tag: {obj.eleType}</p>
+                        <p>Source: {obj.source}</p>
+                        <p>Destination: {obj.target}</p>
+                    </div>
+                )
+            case 'router':
+                return (
+                    <div>
+                        <p>Tag: {obj.eleType}</p>
+                        <p>ID: {obj.id}</p>
+                        <p>Coordinates: {obj.coordinates}</p>
+                    </div>
+                )                
             case 'core':
                 return (
                     <div>

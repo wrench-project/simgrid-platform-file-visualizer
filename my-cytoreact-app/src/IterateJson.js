@@ -43,6 +43,7 @@ export default function iterateJson(json, elements) {
                                             id: json.attributes.id,
                                             eleType: element.name,
                                             label: json.attributes.id,
+                                            coordinates: json.attributes.coordinates,
                                         },
                                     })
                                 case "route":

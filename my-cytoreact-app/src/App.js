@@ -2,6 +2,7 @@ import { useState } from 'react';
 import CytoscapeComponent from 'react-cytoscapejs';
 import FileUploadButton from './FileUpload';
 import PopUp from './PopUp';
+import { isEmpty } from 'lodash';
 
 // sample data
 // const elements = [
@@ -72,13 +73,37 @@ import PopUp from './PopUp';
 // ];
 
 const style = 
-    {width: '1440px', height: '600px'};
+    {width: '1440px', height: '650px', margin: 'auto'};
 
 const pan = 
     {x:725, y:300};
 
-const layout = 
-    {name: 'grid', fit: true };
+const layout = {
+    name: 'cose',
+    ready: function(){},
+    stop: function(){},
+    animate: false,
+    animationEasing: undefined,
+    animationDuration: undefined,
+    animateFilter: function ( node, i ){ return true; },
+    animationThreshold: 250,
+    refresh: 0,
+    fit: true,
+    padding: 30,
+    boundingBox: undefined,
+    nodeDimensionsIncludeLabels: false,
+    randomize: false,
+    componentSpacing: 40,
+    nodeRepulsion: function( node ){ return 2048; },
+    nodeOverlap: 4,
+    edgeElasticity: function( edge ){ return 32; },
+    nestingFactor: 1.2,
+    gravity: 1,
+    numIter: 1000,
+    initialTemp: 1000,
+    coolingFactor: 0.99,
+    minTemp: 1.0
+};
 
 var obj = {};
 
@@ -94,6 +119,16 @@ function App() {
         setElements(newElements);
     }
 
+    // const renderOnce = (cy) => {
+    //     var count = 0;
+    //     if (count !== 1) {
+    //         cy.layout(layout).run();
+    //         count++;
+    //     } else {
+    //         return (null);
+    //     }
+    // }
+
     return (
         <>
             <FileUploadButton handleElements={handleElements}/>
@@ -101,21 +136,19 @@ function App() {
             <CytoscapeComponent
             elements={elements}
             style={style}
-            // stylesheet={stylesheet}
             pan={pan}
-            layout={layout}
             cy={cy => {
                 cy.on("tap", evt => {
                     try {
                         obj = evt.target.data();
-                        if (obj !== null){
+                        if (!(isEmpty(obj))){
                             handleOpen();
                         }
                     } catch (error) {
                         console.log("Error; Not a node")
                     }
-                    
                 })
+                cy.layout(layout).run();
             }}
             />
         </>
