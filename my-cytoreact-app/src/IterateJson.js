@@ -1,5 +1,4 @@
 export default function iterateJson(json, elements, parent) {
-
     for (const key in json) {
         if (json.hasOwnProperty(key)) {
             const value = json[key];
@@ -17,7 +16,9 @@ export default function iterateJson(json, elements, parent) {
                                 elements.push({
                                     data: {
                                         id: json.attributes.id,
-                                        label: json.attributes.id,
+                                        label: element.name + json.attributes.id,
+                                        eleType: element.name,
+                                        routing: json.attributes.routing
                                     },
                                 });
                                 break;
@@ -25,10 +26,11 @@ export default function iterateJson(json, elements, parent) {
                                 elements.push({
                                     data: {
                                         id: json.attributes.id,
-                                        label: json.attributes.id,
+                                        label: element.name + json.attributes.id,
                                         eleType: element.name,
                                         parent: parent,
                                         speed: json.attributes.speed,
+                                        cores: json.attributes.cores,
                                         type: "rectangle",
                                     },
                                 });
@@ -37,7 +39,7 @@ export default function iterateJson(json, elements, parent) {
                                 elements.push({
                                     data: {
                                         id: json.attributes.id,
-                                        label: "link " + json.attributes.id,
+                                        label: element.name + json.attributes.id,
                                         eleType: element.name,
                                         parent: parent,
                                         bandwidth: json.attributes.bandwidth,
@@ -51,7 +53,7 @@ export default function iterateJson(json, elements, parent) {
                                     data: {
                                         id: json.attributes.id,
                                         eleType: element.name,
-                                        label: json.attributes.id,
+                                        label: element.name + json.attributes.id,
                                         parent: parent,
                                         coordinates: json.attributes.coordinates,
                                     },
