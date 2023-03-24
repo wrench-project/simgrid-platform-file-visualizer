@@ -1,4 +1,4 @@
-export default function iterateJson(json, elements, parent) {
+export default function iterateJson(json, elements, parentZone, parentHost) {
     for (const key in json) {
         if (json.hasOwnProperty(key)) {
             const value = json[key];
@@ -12,7 +12,7 @@ export default function iterateJson(json, elements, parent) {
                         };
                         switch (element.name) {
                             case "zone":
-                                parent = json.attributes.id;
+                                parentZone = json.attributes.id;
                                 elements.push({
                                     data: {
                                         id: json.attributes.id,
@@ -23,15 +23,28 @@ export default function iterateJson(json, elements, parent) {
                                 });
                                 break;
                             case "host":
+                                parentHost = json.attributes.id
                                 elements.push({
                                     data: {
                                         id: json.attributes.id,
                                         label: element.name + ' ' + json.attributes.id,
                                         eleType: element.name,
-                                        parent: parent,
+                                        parent: parentZone,
                                         speed: json.attributes.speed,
                                         cores: getCores(json.attributes.cores),
                                         shape: "rectangle",
+                                    },
+                                });
+                                break;
+                            case "disk":
+                                elements.push({
+                                    data: {
+                                        id: json.attributes.id,
+                                        readbw: json.attributes.read_bw,
+                                        writebw: json.attributes.write_bw,
+                                        parent: parentHost,
+                                        eleType: element.name,
+                                        label: element.name + ' ' + json.attributes.id,
                                     },
                                 });
                                 break;
@@ -41,7 +54,7 @@ export default function iterateJson(json, elements, parent) {
                                         id: json.attributes.id,
                                         label: element.name + ' ' + json.attributes.id,
                                         eleType: element.name,
-                                        parent: parent,
+                                        parent: parentZone,
                                         bandwidth: json.attributes.bandwidth,
                                         latency: json.attributes.latency,
                                         shape: "rhomboid",
@@ -54,7 +67,7 @@ export default function iterateJson(json, elements, parent) {
                                         id: json.attributes.id,
                                         eleType: element.name,
                                         label: element.name + ' ' + json.attributes.id,
-                                        parent: parent,
+                                        parent: parentZone,
                                         shape: "diamond",
                                     },
                                 });
@@ -69,7 +82,7 @@ export default function iterateJson(json, elements, parent) {
                                             id: `${source}-${target}`,
                                             label: `${source} to ${target}`,
                                             eleType: element.name,
-                                            parent: parent,
+                                            // parent: parent,
                                             source: source,
                                             target: target,
                                         },
@@ -85,7 +98,7 @@ export default function iterateJson(json, elements, parent) {
                                                     id: `${sourceId}-${targetId}`,
                                                     label: `${sourceId} to ${targetId}`,
                                                     eleType: element.name,
-                                                    parent: parent,
+                                                    // parent: parent,
                                                     source: sourceId,
                                                     target: targetId,
                                                 },
@@ -102,7 +115,7 @@ export default function iterateJson(json, elements, parent) {
                                                 id: `${lastChildId}-${json.attributes.dst}`,
                                                 label: `${lastChildId} to ${json.attributes.dst}`,
                                                 eleType: element.name,
-                                                parent: parent,
+                                                // parent: parent,
                                                 source: lastChildId,
                                                 target: json.attributes.dst,
                                             },
@@ -118,7 +131,7 @@ export default function iterateJson(json, elements, parent) {
                                                 id: `${source}-${target}`,
                                                 label: `${source} to ${target}`,
                                                 eleType: element.name,
-                                                parent: parent,
+                                                // parent: parent,
                                                 source: source,
                                                 target: target,
                                             },
@@ -132,7 +145,7 @@ export default function iterateJson(json, elements, parent) {
                                                 id: `${childId}-${json.attributes.dst}`,
                                                 label: `${childId} to ${json.attributes.dst}`,
                                                 eleType: element.name,
-                                                parent: parent,
+                                                // parent: parent,
                                                 source: childId,
                                                 target: json.attributes.dst,
                                             },
@@ -148,7 +161,7 @@ export default function iterateJson(json, elements, parent) {
                                                 id: `${source}-${target}`,
                                                 label: `${source} to ${target}`,
                                                 eleType: element.name,
-                                                parent: parent,
+                                                // parent: parent,
                                                 source: source,
                                                 target: target,
                                             },
@@ -171,7 +184,7 @@ export default function iterateJson(json, elements, parent) {
                 default:
                     // If the value is an object, recursively iterate through its keys
                     if (typeof value === "object") {
-                        iterateJson(value, elements, parent);
+                        iterateJson(value, elements, parentZone, parentHost);
                     }
                     break;
             }
