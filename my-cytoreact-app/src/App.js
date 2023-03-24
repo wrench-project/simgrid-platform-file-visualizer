@@ -1,4 +1,4 @@
-import {useState} from 'react';
+import {useEffect, useRef, useState} from 'react';
 import CytoscapeComponent from 'react-cytoscapejs';
 import FileUploadButton from './FileUpload';
 import PopUp from './PopUp';
@@ -117,6 +117,17 @@ function App() {
     const handleElements = (newElements) => {
         setElements(newElements);
     }
+    const cyRef = useRef(null);
+
+    const runLayout = (cy) => {
+        cy.layout(layout).run();
+    };
+
+    useEffect(() => {
+        if (cyRef.current) {
+            runLayout(cyRef.current);
+        }
+    }, [elements]);
 
     // const renderOnce = (cy) => {
     //     var count = 0;
@@ -138,6 +149,7 @@ function App() {
                 stylesheet={stylesheet}
                 pan={pan}
                 cy={cy => {
+                    cyRef.current = cy;
                     cy.on("tap", evt => {
                         try {
                             obj = evt.target.data();
@@ -148,7 +160,7 @@ function App() {
                             console.log("Error; Not a node")
                         }
                     })
-                    cy.layout(layout).run();
+                   // cy.layout(layout).run();
                 }}
             />
         </>
