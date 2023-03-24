@@ -6,6 +6,7 @@
   <component name="ChangeListManager">
     <list default="true" id="16acee19-c3f1-4486-87dd-22168e6906e3" name="Changes" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/my-cytoreact-app/src/App.js" beforeDir="false" afterPath="$PROJECT_DIR$/my-cytoreact-app/src/App.js" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/my-cytoreact-app/src/IterateJson.js" beforeDir="false" afterPath="$PROJECT_DIR$/my-cytoreact-app/src/IterateJson.js" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
