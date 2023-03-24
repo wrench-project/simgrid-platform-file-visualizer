@@ -16,7 +16,7 @@ export default function iterateJson(json, elements, parent) {
                                 elements.push({
                                     data: {
                                         id: json.attributes.id,
-                                        label: element.name + json.attributes.id,
+                                        label: element.name + ' ' + json.attributes.id,
                                         eleType: element.name,
                                         routing: json.attributes.routing
                                     },
@@ -26,11 +26,11 @@ export default function iterateJson(json, elements, parent) {
                                 elements.push({
                                     data: {
                                         id: json.attributes.id,
-                                        label: element.name + json.attributes.id,
+                                        label: element.name + ' ' + json.attributes.id,
                                         eleType: element.name,
                                         parent: parent,
                                         speed: json.attributes.speed,
-                                        cores: json.attributes.cores,
+                                        cores: getCores(json.attributes.cores),
                                         shape: "rectangle",
                                     },
                                 });
@@ -39,7 +39,7 @@ export default function iterateJson(json, elements, parent) {
                                 elements.push({
                                     data: {
                                         id: json.attributes.id,
-                                        label: element.name + json.attributes.id,
+                                        label: element.name + ' ' + json.attributes.id,
                                         eleType: element.name,
                                         parent: parent,
                                         bandwidth: json.attributes.bandwidth,
@@ -53,9 +53,8 @@ export default function iterateJson(json, elements, parent) {
                                     data: {
                                         id: json.attributes.id,
                                         eleType: element.name,
-                                        label: element.name + json.attributes.id,
+                                        label: element.name + ' ' + json.attributes.id,
                                         parent: parent,
-                                        coordinates: json.attributes.coordinates,
                                         shape: "diamond",
                                     },
                                 });
@@ -177,5 +176,13 @@ export default function iterateJson(json, elements, parent) {
                     break;
             }
         }
+    }
+}
+
+const getCores = (core) => {
+    if (core > 1) {
+        return core
+    } else {
+        return 1
     }
 }

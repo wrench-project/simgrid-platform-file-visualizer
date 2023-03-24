@@ -67,16 +67,9 @@ const stylesheet = [
         }
     },
     {
-        selector: ':parent',
+        selector: '[eleType="zone"]',
         css: {
-            'text-valign': 'top',
-            'text-halign': 'center',
-        }
-    },
-    {
-        selector: ':child',
-        css: {
-            // 'background-color': 'black'
+            'label': 'data(label)',
         }
     },
     {
@@ -117,6 +110,7 @@ function App() {
     const handleElements = (newElements) => {
         setElements(newElements);
     }
+    
     const cyRef = useRef(null);
 
     const runLayout = (cy) => {

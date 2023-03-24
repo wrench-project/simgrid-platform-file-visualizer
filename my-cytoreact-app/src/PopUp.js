@@ -24,10 +24,8 @@ export default function PopUp({ obj, open, close }) {
     // Loops through object attribute. (Should be object data). Display in a <p> tag
 
     const DisplayObject = ({obj}) => {
-        const doNotShow = ['label', 'eleType', 'parent', 'type']
+        const doNotShow = ['label', 'eleType', 'parent', 'type', 'shape']
         var newObj = omit(obj, doNotShow); // Deletes keys
-        console.log(newObj)
-        console.log(obj)
         return (
             <div>
                 {Object.entries(newObj).map(([key,val]) =>
