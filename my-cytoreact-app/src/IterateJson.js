@@ -31,7 +31,7 @@ export default function iterateJson(json, elements, parent) {
                                         parent: parent,
                                         speed: json.attributes.speed,
                                         cores: json.attributes.cores,
-                                        type: "rectangle",
+                                        shape: "rectangle",
                                     },
                                 });
                                 break;
@@ -44,7 +44,7 @@ export default function iterateJson(json, elements, parent) {
                                         parent: parent,
                                         bandwidth: json.attributes.bandwidth,
                                         latency: json.attributes.latency,
-                                        type: "rhomboid",
+                                        shape: "rhomboid",
                                     },
                                 });
                                 break;
@@ -56,6 +56,7 @@ export default function iterateJson(json, elements, parent) {
                                         label: element.name + json.attributes.id,
                                         parent: parent,
                                         coordinates: json.attributes.coordinates,
+                                        shape: "diamond",
                                     },
                                 });
                                 break;
