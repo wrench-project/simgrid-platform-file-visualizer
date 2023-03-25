@@ -1,4 +1,21 @@
 export default function iterateJson(json, elements, parentZone, parentHost) {
+    // defData - Properties/Attributes of object
+    // cytoData - Data for Cytoscape to render
+    // propData - Unique user defined data that user implement in XML file (<prop> tag)
+        // Current plan is to create an algo that will...
+            // Pass children of json into a function (json.children)
+            // Loop through list of children and retreive only objects with name: prop
+            // Get id and value of each <prop>
+            // Create a new object where each attribute will be id[value]:value[value]
+                // id[value] = value of the key "id"
+                // value[value] = value of the key "value"
+            // RETURN: An object {}, (eg, newObj{}) filled with one or more objects. Where each objects in newObj{} is a unique
+            // is an attribute of the <prop> tag 
+    // otherData - Properties/Attributes of object that WAS NOT Explicitly defined, but SHOULD HAVE default value.
+        // Ex. <host> tags MIGHT not have cores defined, but default is 1 core.
+    // mergeData - Combined all data above. This data is to be passed in the elements array
+    var defData, cytoData, mergeData, otherData, propData
+
     for (const key in json) {
         if (json.hasOwnProperty(key)) {
             const value = json[key];
@@ -12,66 +29,86 @@ export default function iterateJson(json, elements, parentZone, parentHost) {
                         };
                         switch (element.name) {
                             case "zone":
+                                // Variables
+                                defData = json.attributes
+                                cytoData = {
+                                    label: json.attributes.id,
+                                    eleType: element.name,
+                                }
+                                // propData: getProp(json.children)
+                                mergeData = {...defData, ...cytoData}
                                 parentZone = json.attributes.id;
+                                // Push
                                 elements.push({
-                                    data: {
-                                        id: json.attributes.id,
-                                        label: element.name + ' ' + json.attributes.id,
-                                        eleType: element.name,
-                                        routing: json.attributes.routing
-                                    },
+                                    data: mergeData
                                 });
                                 break;
                             case "host":
+                                // Variables
+                                defData = json.attributes
+                                cytoData = {
+                                    label: json.attributes.id,
+                                    eleType: element.name,
+                                    parent: parentZone,
+                                    shape: "rectangle",
+                                }
+                                otherData = {cores: getCores(json.attributes.cores)}
+                                // propData: getProp(json.children)
+                                mergeData = {... defData, ...cytoData, ...otherData}
                                 parentHost = json.attributes.id
+                                // Push
                                 elements.push({
-                                    data: {
-                                        id: json.attributes.id,
-                                        label: element.name + ' ' + json.attributes.id,
-                                        eleType: element.name,
-                                        parent: parentZone,
-                                        speed: json.attributes.speed,
-                                        cores: getCores(json.attributes.cores),
-                                        shape: "rectangle",
-                                    },
+                                    data: mergeData
                                 });
                                 break;
                             case "disk":
+                                // Variables
+                                defData = json.attributes
+                                cytoData = {
+                                    parent: parentHost,
+                                    eleType: element.name,
+                                    label: json.attributes.id,
+                                }
+                                // propData: getProp(json.children)
+                                mergeData = {...defData, ...cytoData}
+                                // Push
                                 elements.push({
-                                    data: {
-                                        id: json.attributes.id,
-                                        readbw: json.attributes.read_bw,
-                                        writebw: json.attributes.write_bw,
-                                        parent: parentHost,
-                                        eleType: element.name,
-                                        label: element.name + ' ' + json.attributes.id,
-                                    },
+                                    data: mergeData
                                 });
                                 break;
                             case "link":
+                                // Variable
+                                defData = json.attributes
+                                cytoData = {
+                                    label: json.attributes.id,
+                                    eleType: element.name,
+                                    parent: parentZone,
+                                    shape: "rhomboid",
+                                }
+                                // propData: getProp(json.children)
+                                mergeData = {...defData, ...cytoData}
+                                // Push
                                 elements.push({
-                                    data: {
-                                        id: json.attributes.id,
-                                        label: element.name + ' ' + json.attributes.id,
-                                        eleType: element.name,
-                                        parent: parentZone,
-                                        bandwidth: json.attributes.bandwidth,
-                                        latency: json.attributes.latency,
-                                        shape: "rhomboid",
-                                    },
+                                    data: mergeData
                                 });
                                 break;
                             case "router":
+                                // Variable
+                                defData = json.attributes
+                                cytoData = {
+                                    eleType: element.name,
+                                    label: json.attributes.id,
+                                    parent: parentZone,
+                                    shape: "diamond",
+                                }
+                                // propData: getProp(json.children)
+                                mergeData = {...defData, ...cytoData}
+                                // Push
                                 elements.push({
-                                    data: {
-                                        id: json.attributes.id,
-                                        eleType: element.name,
-                                        label: element.name + ' ' + json.attributes.id,
-                                        parent: parentZone,
-                                        shape: "diamond",
-                                    },
+                                    data: mergeData
                                 });
                                 break;
+                            // Edges
                             case "route":
                                 if (json.children && json.children.length > 1) {
                                     // Connect the source to the first child
@@ -198,4 +235,11 @@ const getCores = (core) => {
     } else {
         return 1
     }
+}
+
+const getProp = (childNode) => {
+    // Array
+    console.log(childNode);
+    // Loop through array
+    // Get objects where "name:Prop"
 }

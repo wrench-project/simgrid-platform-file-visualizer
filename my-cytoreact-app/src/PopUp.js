@@ -29,7 +29,7 @@ export default function PopUp({ obj, open, close }) {
         return (
             <div>
                 {Object.entries(newObj).map(([key,val]) =>
-                    <p>{key}: {val}</p>
+                    <p key={key}>{key}: {val}</p>
                 )}
             </div>
         )
