@@ -38,7 +38,7 @@ const stylesheet = [
         css: {
             'shape': 'data(shape)',
             'label': 'data(label)',
-            'background-color': 'green',
+            'background-color': '#161a50',
         }
     },
     {
@@ -46,7 +46,7 @@ const stylesheet = [
         css: {
             'shape': 'data(shape)',
             'label': 'data(label)',
-            'background-color': 'purple',
+            'background-color': '#8a0202',
         }
     },
     {
@@ -54,7 +54,7 @@ const stylesheet = [
         css: {
             'shape': 'data(shape)',
             'label': 'data(label)',
-            'background-color': '#817424',
+            'background-color': '#9f007f',
         }
     },
     {
@@ -73,13 +73,14 @@ const stylesheet = [
         }
     },
     {
-        selector: '#disk',
+        selector: '[eleType="disk"]',
         css: {
+            'shape': 'rectangle',
             'background-image': 'https://cdn-icons-png.flaticon.com/512/227/227889.png',
-            'height': 120,
-            'width': 120,
+            'background-color': '#161a50',
+            'height': 30,
+            'width': 30,
             'background-fit': 'contain',
-            'background-color': '#ffffff',
         }
     },
 ];
@@ -110,7 +111,7 @@ function App() {
     const handleElements = (newElements) => {
         setElements(newElements);
     }
-    
+
     const cyRef = useRef(null);
 
     const runLayout = (cy) => {
@@ -154,7 +155,7 @@ function App() {
                             console.log("Error; Not a node")
                         }
                     })
-                   // cy.layout(layout).run();
+                    // cy.layout(layout).run();
                 }}
             />
         </>
