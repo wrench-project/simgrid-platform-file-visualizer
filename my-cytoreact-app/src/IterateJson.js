@@ -35,8 +35,8 @@ export default function iterateJson(json, elements, parentZone, parentHost) {
                                     label: json.attributes.id,
                                     eleType: element.name,
                                 }
-                                // propData: getProp(json.children)
-                                mergeData = {...defData, ...cytoData}
+                                propData = getProp(json.children)
+                                mergeData = {...defData, ...cytoData, propData}
                                 parentZone = json.attributes.id;
                                 // Push
                                 elements.push({
@@ -53,8 +53,8 @@ export default function iterateJson(json, elements, parentZone, parentHost) {
                                     shape: "rectangle",
                                 }
                                 otherData = {cores: getCores(json.attributes.cores)}
-                                // propData: getProp(json.children)
-                                mergeData = {...defData, ...cytoData, ...otherData}
+                                propData = getProp(json.children)
+                                mergeData = {...defData, ...cytoData, ...otherData, ...propData}
                                 parentHost = json.attributes.id
                                 // Push
                                 elements.push({
@@ -70,8 +70,8 @@ export default function iterateJson(json, elements, parentZone, parentHost) {
                                     eleType: element.name,
                                     label: json.attributes.id,
                                 }
-                                // propData: getProp(json.children)
-                                mergeData = {...defData, ...cytoData}
+                                propData = getProp(json.children)
+                                mergeData = {...defData, ...cytoData, ...propData}
                                 // Push
                                 elements.push({
                                     data: mergeData,
@@ -86,8 +86,8 @@ export default function iterateJson(json, elements, parentZone, parentHost) {
                                     parent: parentZone,
                                     shape: "rhomboid",
                                 }
-                                // propData: getProp(json.children)
-                                mergeData = {...defData, ...cytoData}
+                                propData = getProp(json.children)
+                                mergeData = {...defData, ...cytoData, ...propData}
                                 // Push
                                 elements.push({
                                     data: mergeData
@@ -102,8 +102,8 @@ export default function iterateJson(json, elements, parentZone, parentHost) {
                                     parent: parentZone,
                                     shape: "diamond",
                                 }
-                                // propData: getProp(json.children)
-                                mergeData = {...defData, ...cytoData}
+                                propData = getProp(json.children)
+                                mergeData = {...defData, ...cytoData, ...propData}
                                 // Push
                                 elements.push({
                                     data: mergeData
@@ -238,9 +238,20 @@ const getCores = (core) => {
     }
 }
 
-const getProp = (childNode) => {
-    // Array
-    console.log(childNode);
-    // Loop through array
-    // Get objects where "name:Prop"
+// const getProp = (childNode) => {
+//     // Array
+//     console.log(childNode);
+//     // Loop through array
+//     // Get objects where "name:Prop"
+// }
+
+function getProp(children) {
+    let props = {}
+    children.forEach(child => {
+        if (child.name === "prop") {
+            props[child.attributes.id] = child.attributes.value
+        }
+    })
+    console.log(props);
+    return props
 }
