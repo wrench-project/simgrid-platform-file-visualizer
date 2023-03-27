@@ -238,20 +238,14 @@ const getCores = (core) => {
     }
 }
 
-// const getProp = (childNode) => {
-//     // Array
-//     console.log(childNode);
-//     // Loop through array
-//     // Get objects where "name:Prop"
-// }
-
 function getProp(children) {
     let props = {}
     children.forEach(child => {
+        // check the child name
         if (child.name === "prop") {
+            // id: value
             props[child.attributes.id] = child.attributes.value
         }
     })
-    console.log(props);
     return props
 }
