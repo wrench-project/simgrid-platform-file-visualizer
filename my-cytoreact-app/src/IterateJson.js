@@ -2,17 +2,8 @@ export default function iterateJson(json, elements, parentZone, parentHost) {
     // defData - Properties/Attributes of object
     // cytoData - Data for Cytoscape to render
     // propData - Unique user defined data that user implement in XML file (<prop> tag)
-    // Current plan is to create an algo that will...
-    // Pass children of json into a function (json.children)
-    // Loop through list of children and retreive only objects with name: prop
-    // Get id and value of each <prop>
-    // Create a new object where each attribute will be id[value]:value[value]
-    // id[value] = value of the key "id"
-    // value[value] = value of the key "value"
-    // RETURN: An object {}, (eg, newObj{}) filled with one or more objects. Where each objects in newObj{} is a unique
-    // is an attribute of the <prop> tag
     // otherData - Properties/Attributes of object that WAS NOT Explicitly defined, but SHOULD HAVE default value.
-    // Ex. <host> tags MIGHT not have cores defined, but default is 1 core.
+        // Ex. <host> tags MIGHT not have cores defined, but default is 1 core.
     // mergeData - Combined all data above. This data is to be passed in the elements array
     var defData, cytoData, mergeData, otherData, propData
 
