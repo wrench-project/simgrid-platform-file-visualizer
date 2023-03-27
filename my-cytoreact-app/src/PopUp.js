@@ -22,10 +22,14 @@ export default function PopUp({ obj, open, close }) {
 
     // Takes node object from props, passes to const DisplayObject as attribute
     // Loops through object attribute. (Should be object data). Display in a <p> tag
-
     const DisplayObject = ({obj}) => {
         const doNotShow = ['label', 'eleType', 'parent', 'type', 'shape']
         var newObj = omit(obj, doNotShow); // Deletes keys
+        let newStr = newObj.id
+        newStr = newStr.substr(newStr.indexOf(' ') + 1)
+        newObj.id = newStr
+
+
         return (
             <div>
                 {Object.entries(newObj).map(([key,val]) =>
@@ -100,7 +104,7 @@ export default function PopUp({ obj, open, close }) {
         <div>
            <Modal open={open} onClose={close}>
                 <Box sx={style}>
-                    <h2>{obj.eleType} {obj.id} Information</h2>
+                    <h2>{obj.eleType} Information</h2>
                     <DisplayObject obj={obj}/>
                 </Box>
             </Modal> 
