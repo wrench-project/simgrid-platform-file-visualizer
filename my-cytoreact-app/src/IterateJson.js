@@ -27,7 +27,7 @@ export default function iterateJson(json, elements, parentZone, parentHost) {
                                     eleType: element.name,
                                 }
                                 propData = getProp(json.children)
-                                mergeData = {...defData, ...cytoData, propData}
+                                mergeData = {...defData, ...cytoData, ...propData}
                                 parentZone = json.attributes.id;
                                 // Push
                                 elements.push({
