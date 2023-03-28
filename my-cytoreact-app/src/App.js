@@ -3,6 +3,9 @@ import CytoscapeComponent from 'react-cytoscapejs';
 import FileUploadButton from './FileUpload';
 import PopUp from './PopUp';
 import {isEmpty} from 'lodash';
+import backboneImage from './backbone.png';
+import crossbarImage from './crossbar.png';
+import topologyImage from './topology.png';
 
 // sample data
 // const elements = [
@@ -80,6 +83,42 @@ const stylesheet = [
             'background-color': '#161a50',
             'height': 30,
             'width': 30,
+            'background-fit': 'contain',
+        }
+    },
+    {
+        selector: '[eleType="cluster"][cluster_type="backbone"]',
+        css: {
+            'label': 'data(label)',
+            'shape': 'rectangle',
+            'background-image': `url(${backboneImage})`,
+            'background-color': 'white',
+            'height': 80,
+            'width': 80,
+            'background-fit': 'contain',
+        }
+    },
+    {
+        selector: '[eleType="cluster"][cluster_type="crossbar"]',
+        css: {
+            'label': 'data(label)',
+            'shape': 'rectangle',
+            'background-image': `url(${crossbarImage})`,
+            'background-color': 'white',
+            'height': 80,
+            'width': 80,
+            'background-fit': 'contain',
+        }
+    },
+    {
+        selector: '[eleType="cluster"][cluster_type="topology"]',
+        css: {
+            'label': 'data(label)',
+            'shape': 'rectangle',
+            'background-image': `url(${topologyImage})`,
+            'background-color': 'white',
+            'height': 80,
+            'width': 80,
             'background-fit': 'contain',
         }
     },
