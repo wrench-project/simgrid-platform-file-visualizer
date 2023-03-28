@@ -115,8 +115,9 @@ export default function iterateJson(json, elements, parentZone, parentHost) {
                                 mergeData = {...defData, ...cytoData, ...propData}
                                 elements.push({
                                     data: mergeData
-                                })
-                                // Edges
+                                });
+                                break;
+                            // Edges
                             case "route":
                                 if (json.children && json.children.length > 1) {
                                     // Connect the source to the first child

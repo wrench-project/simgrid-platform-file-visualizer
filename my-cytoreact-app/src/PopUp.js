@@ -25,6 +25,9 @@ export default function PopUp({ obj, open, close }) {
     const DisplayObject = ({obj}) => {
         const doNotShow = ['label', 'eleType', 'parent', 'type', 'shape']
         var newObj = omit(obj, doNotShow); // Deletes keys
+
+        // Edit ID to exclude parentHost 
+        // This is intended for the <disk>, but will apply to any other modified id for 'uniqueness'
         let newStr = newObj.id
         newStr = newStr.substr(newStr.indexOf(' ') + 1)
         newObj.id = newStr
