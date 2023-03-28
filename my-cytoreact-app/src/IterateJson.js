@@ -20,6 +20,7 @@ export default function iterateJson(json, elements, parentZone, parentHost) {
                         };
                         switch (element.name) {
                             case "zone":
+                                console.log(json)
                                 // Variables
                                 defData = json.attributes
                                 cytoData = {
@@ -58,6 +59,7 @@ export default function iterateJson(json, elements, parentZone, parentHost) {
                                 cytoData = {
                                     id: parentHost + " " + json.attributes.id,
                                     parent: parentHost,
+                                    host: parentHost,
                                     eleType: element.name,
                                     label: json.attributes.id,
                                 }
@@ -100,7 +102,21 @@ export default function iterateJson(json, elements, parentZone, parentHost) {
                                     data: mergeData
                                 });
                                 break;
-                            // Edges
+                            case "cluster": 
+                                // Variable
+                                defData = json.attributes
+                                cytoData = {
+                                    eleType: element.name,
+                                    // clusterType: getClusterType(defData),
+                                    label: json.attributes.id,
+                                    parent: parentZone,
+                                    host: parentZone
+                                }
+                                mergeData = {...defData, ...cytoData}
+                                elements.push({
+                                    data: mergeData
+                                })
+                                // Edges
                             case "route":
                                 if (json.children && json.children.length > 1) {
                                     // Connect the source to the first child
@@ -240,3 +256,14 @@ function getProp(children) {
     })
     return props
 }
+
+// // @data = obj.attributes
+// function getClusterType(data) {
+//     switch (data) {
+//         case (('bb_bw' in data) && ('bb_lat' in data) && !('topology' in data)): 
+//             console.log('A');
+//         break;
+//         default: 
+//         break;
+//     }
+// }
