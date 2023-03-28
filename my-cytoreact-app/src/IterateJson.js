@@ -1,6 +1,6 @@
 export default function iterateJson(json, elements, parentZone, parentHost) {
     // defData - Properties/Attributes of object
-    // cytoData - Data for Cytoscape to render
+    // cytoData - Data for Cytoscape/Popup to render
     // propData - Unique user defined data that user implement in XML file (<prop> tag)
     // otherData - Properties/Attributes of object that WAS NOT Explicitly defined, but SHOULD HAVE default value.
         // Ex. <host> tags MIGHT not have cores defined, but default is 1 core.
@@ -20,7 +20,6 @@ export default function iterateJson(json, elements, parentZone, parentHost) {
                         };
                         switch (element.name) {
                             case "zone":
-                                console.log(json)
                                 // Variables
                                 defData = json.attributes
                                 cytoData = {
@@ -107,12 +106,13 @@ export default function iterateJson(json, elements, parentZone, parentHost) {
                                 defData = json.attributes
                                 cytoData = {
                                     eleType: element.name,
-                                    // clusterType: getClusterType(defData),
+                                    cluster_type: getClusterType(json.attributes),
                                     label: json.attributes.id,
                                     parent: parentZone,
                                     host: parentZone
                                 }
-                                mergeData = {...defData, ...cytoData}
+                                propData = getProp(json.children)
+                                mergeData = {...defData, ...cytoData, ...propData}
                                 elements.push({
                                     data: mergeData
                                 })
@@ -257,13 +257,17 @@ function getProp(children) {
     return props
 }
 
-// // @data = obj.attributes
-// function getClusterType(data) {
-//     switch (data) {
-//         case (('bb_bw' in data) && ('bb_lat' in data) && !('topology' in data)): 
-//             console.log('A');
-//         break;
-//         default: 
-//         break;
-//     }
-// }
+// @data = obj.attributes
+function getClusterType(data) {
+    let bb_bw = data.hasOwnProperty('bb_bw')
+    let bb_lat = data.hasOwnProperty('bb_lat')
+    let top = data.hasOwnProperty('topology')
+
+    if (bb_bw && bb_lat && !top) {
+        return 'backbone'
+    } else if (!bb_bw && !bb_lat && !top) {
+        return 'crossbar'
+    } else if (top) {
+        return 'T'
+    }
+}

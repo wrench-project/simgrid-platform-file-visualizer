@@ -29,7 +29,6 @@ export default function PopUp({ obj, open, close }) {
         newStr = newStr.substr(newStr.indexOf(' ') + 1)
         newObj.id = newStr
 
-
         return (
             <div>
                 {Object.entries(newObj).map(([key,val]) =>
