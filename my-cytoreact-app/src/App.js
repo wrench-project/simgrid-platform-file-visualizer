@@ -6,6 +6,7 @@ import {isEmpty} from 'lodash';
 import backboneImage from './backbone.png';
 import crossbarImage from './crossbar.png';
 import topologyImage from './topology.png';
+import cylinderImage from './cylinder.png';
 
 // sample data
 // const elements = [
@@ -79,7 +80,7 @@ const stylesheet = [
         selector: '[eleType="disk"]',
         css: {
             'shape': 'rectangle',
-            'background-image': 'https://cdn-icons-png.flaticon.com/512/227/227889.png',
+            'background-image': `url(${cylinderImage})`,
             'background-color': '#161a50',
             'height': 30,
             'width': 30,
