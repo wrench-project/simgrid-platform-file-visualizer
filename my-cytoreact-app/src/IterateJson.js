@@ -25,6 +25,7 @@ export default function iterateJson(json, elements, parentZone, parentHost) {
                                 cytoData = {
                                     label: json.attributes.id,
                                     eleType: element.name,
+                                    parent: parentZone
                                 }
                                 propData = getProp(json.children)
                                 mergeData = {...defData, ...cytoData, ...propData}
