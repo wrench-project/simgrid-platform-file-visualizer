@@ -43,7 +43,7 @@ export default function iterateJson(json, elements, parentZone, parentHost) {
                                     parent: parentZone,
                                     shape: "rectangle",
                                 }
-                                otherData = {cores: getCores(json.attributes.cores)}
+                                otherData = {core: getCores(json.attributes.core)}
                                 propData = getProp(json.children)
                                 mergeData = {...defData, ...cytoData, ...otherData, ...propData}
                                 parentHost = json.attributes.id
@@ -109,7 +109,7 @@ export default function iterateJson(json, elements, parentZone, parentHost) {
                                     cluster_type: getClusterType(json.attributes),
                                     label: json.attributes.id,
                                     parent: parentZone,
-                                    host: parentZone
+                                    host: parentZone,
                                 }
                                 propData = getProp(json.children)
                                 mergeData = {...defData, ...cytoData, ...propData}
@@ -269,6 +269,6 @@ function getClusterType(data) {
     } else if (!bb_bw && !bb_lat && !top) {
         return 'crossbar'
     } else if (top) {
-        return 'T'
+        return 'topology'
     }
 }
