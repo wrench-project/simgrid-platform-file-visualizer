@@ -43,7 +43,7 @@ export default function iterateJson(json, elements, parentZone, parentHost) {
                                     parent: parentZone,
                                     shape: "rectangle",
                                 }
-                                otherData = {cores: getCores(json.attributes.cores)}
+                                otherData = {core: getCores(json.attributes.core)}
                                 propData = getProp(json.children)
                                 mergeData = {...defData, ...cytoData, ...otherData, ...propData}
                                 parentHost = json.attributes.id
