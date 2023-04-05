@@ -20,6 +20,7 @@ export default function iterateJson(json, elements, parentZone, parentHost) {
                             attributes: json.attributes,
                         };
                         switch (element.name) {
+                            // Nodes
                             case "zone":
                                 // Variables
                                 defData = json.attributes
