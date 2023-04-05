@@ -125,8 +125,7 @@ export default function iterateJson(json, elements, parentZone, parentHost) {
                                     eleType: "router",
                                     label: otherData.router_id,
                                     shape: "diamond",
-                                    //parent: parentZone,
-                                    group: defData.id,
+                                    parent: parentZone,
                                     cluster_based: defData.id,
                                     dataId: defData.router_id,
                                 }
