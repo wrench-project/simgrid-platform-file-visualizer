@@ -3,7 +3,8 @@ export default function iterateJson(json, elements, parentZone, parentHost) {
     // cytoData - Data for Cytoscape/Popup to render
     // propData - Unique user defined data that user implement in XML file (<prop> tag)
     // otherData - Properties/Attributes of object that WAS NOT Explicitly defined, but SHOULD HAVE default value.
-        // Ex. <host> tags MIGHT not have cores defined, but default is 1 core.
+        // <host> tags MIGHT not have cores defined, but default is 1 core.
+        // <cluster> tags will always come with a router defined as '${prefix}${clusterId}_router${suffix}'
     // mergeData - Combined all data above. This data is to be passed in the elements array
     var defData, cytoData, mergeData, otherData, propData
 
@@ -103,7 +104,7 @@ export default function iterateJson(json, elements, parentZone, parentHost) {
                                 });
                                 break;
                             case "cluster": 
-                                // Variable
+                                // Variable (cluster)
                                 defData = json.attributes
                                 cytoData = {
                                     eleType: element.name,
@@ -113,13 +114,41 @@ export default function iterateJson(json, elements, parentZone, parentHost) {
                                     host: parentZone,
                                 }
                                 propData = getProp(json.children)
-                                mergeData = {...defData, ...cytoData, ...propData}
-                                elements.push({
-                                    data: mergeData
-                                });
+                                otherData = getRouter(defData)
+                                mergeData = {...defData, ...cytoData, ...propData, ...otherData}
+
+                                // Variable (cluster_router)
+                                // New router node based on cluster router
+                                const cytoRCData = {
+                                    id: otherData.router_id,
+                                    eleType: "cluster_router",
+                                    label: otherData.router_id,
+                                    shape: "diamond",
+                                    parent: parentZone,
+                                    cluster_based: defData.id
+                                }
+
+                                // Variable (edge: cluster -> cluster_router)
+                                const src = defData.id
+                                const dst = cytoRCData.id
+                                const edgeRCData = {
+                                    id: `${src}-${dst}`,
+                                    label: `${src} to ${dst}`,
+                                    eleType: "edge",
+                                    // parent: parent,
+                                    source: src,
+                                    target: dst,
+                                }
+
+                                elements.push(
+                                    { data: mergeData },
+                                    { data: cytoRCData},
+                                    { data: edgeRCData}
+                                );
                                 break;
                             // Edges
                             case "route":
+                                // src -> dst
                                 if (json.children && json.children.length > 1) {
                                     // Connect the source to the first child
                                     const source = json.attributes.src;
@@ -239,7 +268,9 @@ export default function iterateJson(json, elements, parentZone, parentHost) {
     }
 }
 
-const getCores = (core) => {
+// @core (host) = obj.core
+// Returns 1 (default). Otherwise, number of cores specified
+function getCores(core) {
     if (core > 1) {
         return core
     } else {
@@ -247,6 +278,8 @@ const getCores = (core) => {
     }
 }
 
+// @child = obj.children
+// Returns an object of unique keys:values defined by user
 function getProp(children) {
     let props = {}
     children.forEach(child => {
@@ -259,11 +292,13 @@ function getProp(children) {
     return props
 }
 
-// @data = obj.attributes
+// @data (cluster) = obj.attributes
+// Returns topology type
+// topology = 't'
 function getClusterType(data) {
-    let bb_bw = data.hasOwnProperty('bb_bw')
-    let bb_lat = data.hasOwnProperty('bb_lat')
-    let top = data.hasOwnProperty('topology')
+    const bb_bw = data.hasOwnProperty('bb_bw')
+    const bb_lat = data.hasOwnProperty('bb_lat')
+    const top = data.hasOwnProperty('topology')
 
     if (bb_bw && bb_lat && !top) {
         return 'backbone'
@@ -272,4 +307,13 @@ function getClusterType(data) {
     } else if (top) {
         return 'topology'
     }
+}
+
+// @data (cluster) = obj.attributes
+function getRouter(data) {
+    const pre = data.prefix
+    const id = data.id
+    const suf = data.suffix
+    const routerID = pre + id + '_router' + suf
+    return { router_id: routerID }
 }
