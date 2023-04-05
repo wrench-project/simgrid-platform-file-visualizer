@@ -54,14 +54,6 @@ const stylesheet = [
         }
     },
     {
-        selector: 'node[eleType="cluster_router"]',
-        css: {
-            'shape': 'data(shape)',
-            'label': 'data(label)',
-            'background-color': '#3455eb',
-        }
-    },
-    {
         selector: 'node[eleType="link"]',
         css: {
             'shape': 'data(shape)',
@@ -134,7 +126,10 @@ const stylesheet = [
 ];
 
 const style =
-    {width: '1440px', height: '650px', margin: 'auto', backgroundColor: "lightgray"};
+    {width: '1440px', 
+    height: '650px', 
+    margin: 'auto', 
+    backgroundColor: "lightgray"};
 
 const pan =
     {x: 725, y: 300};

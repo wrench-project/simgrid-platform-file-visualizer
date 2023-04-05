@@ -21,6 +21,7 @@ export default function iterateJson(json, elements, parentZone, parentHost) {
                         };
                         switch (element.name) {
                             // Nodes
+                            
                             case "zone":
                                 // Variables
                                 defData = json.attributes
@@ -122,7 +123,7 @@ export default function iterateJson(json, elements, parentZone, parentHost) {
                                 // New router node based on cluster router
                                 const cytoRCData = {
                                     id: otherData.router_id,
-                                    eleType: "cluster_router",
+                                    eleType: "router",
                                     label: otherData.router_id,
                                     shape: "diamond",
                                     parent: parentZone,
