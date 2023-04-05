@@ -169,15 +169,15 @@ export default function iterateJson(json, elements, parentZone, parentHost) {
                                 // thinking about zoneRoute || router case
                                 const child = json.children[0];
                                 const childId = child.attributes.id;
-                                if (childId && json.attributes.dst) {
+                                if (childId && json.attributes.gw_dst) {
                                     elements.push({
                                         data: {
-                                            id: `${childId}-${json.attributes.dst}`,
-                                            label: `${childId} to ${json.attributes.dst}`,
+                                            id: `${childId}-${json.attributes.gw_dst}`,
+                                            label: `${childId} to ${json.attributes.gw_dst}`,
                                             eleType: element.name,
                                             // parent: parent,
                                             source: childId,
-                                            target: json.attributes.dst,
+                                            target: json.attributes.gw_dst,
                                         },
                                     });
                                 }
