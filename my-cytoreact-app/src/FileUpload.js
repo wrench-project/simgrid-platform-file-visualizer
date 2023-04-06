@@ -36,7 +36,7 @@ function FileUploadButton(props) {
     };
 
     return (
-      <div style={{ backgroundColor: "lightgray" }}>
+      <div style={{ backgroundColor: "gray" }}>
            <input type="file" name="file" onChange={changeHandler} />
            <div>
                <button onClick={handleSubmission}>Submit</button>

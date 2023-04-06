@@ -35,7 +35,6 @@ import cylinderImage from './cylinder.png';
 //     {data: {id: 'host2-connection', eleType: 'Link', bandwidth:'41.269325MBps', latency: '21.904us', source: 'host2', target: 'connection', label: 'Link2'}},
 // ];
 
-
 const stylesheet = [
     {
         selector: 'node[eleType="host"]',
@@ -125,14 +124,17 @@ const stylesheet = [
     },
 ];
 
-const style =
-    {width: '1440px', 
+const style = {
+    width: '1440px', 
     height: '650px', 
     margin: 'auto', 
-    backgroundColor: "lightgray"};
+    backgroundColor: "lightgray"
+};
 
-const pan =
-    {x: 725, y: 300};
+const pan = {
+    x: 725, 
+    y: 300
+};
 
 const layout = {
     name: 'cose',
@@ -155,27 +157,16 @@ function App() {
         setElements(newElements);
     }
 
+    // Ensures layout do not rerender when clicking on nodes
     const cyRef = useRef(null);
-
     const runLayout = (cy) => {
         cy.layout(layout).run();
     };
-
     useEffect(() => {
         if (cyRef.current) {
             runLayout(cyRef.current);
         }
     }, [elements]);
-
-    // const renderOnce = (cy) => {
-    //     var count = 0;
-    //     if (count !== 1) {
-    //         cy.layout(layout).run();
-    //         count++;
-    //     } else {
-    //         return (null);
-    //     }
-    // }
 
     return (
         <>
@@ -198,7 +189,6 @@ function App() {
                             console.log("Error; Not a node")
                         }
                     })
-                    // cy.layout(layout).run();
                 }}
             />
         </>
