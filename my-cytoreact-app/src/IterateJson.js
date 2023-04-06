@@ -146,7 +146,8 @@ export default function iterateJson(json, elements, parentZone, parentHost) {
                                 );
                                 break;
                             // Edges
-                            case "route" || "zoneRoute":
+                            case "route":
+                            case "zoneRoute":
                                 getEdges(json.attributes, json.children, elements)
                                 break;
                             default:
@@ -249,11 +250,11 @@ function getEdges(data, children, eleArray) {
         })
         arrID.push(data.gw_dst)
     }
-    
+
     // Connect each id to the next as an edge
     for (let i = 0; i !== (arrID.length - 1); i++) {
         let src = arrID[i]
-        let dst = arrID[i+1]
+        let dst = arrID[i + 1]
         eleArray.push({
             data: {
                 id: `${src} -> ${dst}`,
