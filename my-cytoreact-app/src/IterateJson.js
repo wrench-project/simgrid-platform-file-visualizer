@@ -115,7 +115,7 @@ export default function iterateJson(json, elements, parentZone, parentHost) {
                                     host: parentZone,
                                 }
                                 propData = getProp(json.children)
-                                mergeData = {...defData, ...cytoData, ...propData, ...otherData}
+                                mergeData = {...defData, ...cytoData, ...propData}
 
                                 // Variable (cluster_router)
                                 // New router node based on cluster router
@@ -147,134 +147,10 @@ export default function iterateJson(json, elements, parentZone, parentHost) {
                                 break;
                             // Edges
                             case "zoneRoute":
-                                const source = json.attributes.gw_src;
-                                const target = json.children[0].attributes.id;
-                                if (source && target) {
-                                    elements.push({
-                                        data: {
-                                            id: `${source}-${target}`,
-                                            label: `${source} to ${target}`,
-                                            eleType: element.name,
-                                            // parent: parent,
-                                            source: source,
-                                            target: target,
-                                        },
-                                    });
-                                }
-                                // has only one child for the example
-                                // thinking about zoneRoute || router case
-                                const child = json.children[0];
-                                const childId = child.attributes.id;
-                                if (childId && json.attributes.gw_dst) {
-                                    elements.push({
-                                        data: {
-                                            id: `${childId}-${json.attributes.gw_dst}`,
-                                            label: `${childId} to ${json.attributes.gw_dst}`,
-                                            eleType: element.name,
-                                            // parent: parent,
-                                            source: childId,
-                                            target: json.attributes.gw_dst,
-                                        },
-                                    });
-                                }
+                                getEdges(json.attributes, json.children, elements)
                                 break;
                             case "route":
-                                // src -> dst
-                                if (json.children && json.children.length > 1) {
-                                    // Connect the source to the first child
-                                    const source = json.attributes.src;
-                                    const target = json.children[0].attributes.id;
-                                    elements.push({
-                                        data: {
-                                            id: `${source}-${target}`,
-                                            label: `${source} to ${target}`,
-                                            eleType: element.name,
-                                            // parent: parent,
-                                            source: source,
-                                            target: target,
-                                        },
-                                    });
-
-                                    // Connect each child to the next child
-                                    for (let i = 0; i < json.children.length - 1; i++) {
-                                        const sourceId = json.children[i].attributes.id;
-                                        const targetId = json.children[i + 1].attributes.id;
-                                        if (sourceId && targetId) {
-                                            elements.push({
-                                                data: {
-                                                    id: `${sourceId}-${targetId}`,
-                                                    label: `${sourceId} to ${targetId}`,
-                                                    eleType: element.name,
-                                                    // parent: parent,
-                                                    source: sourceId,
-                                                    target: targetId,
-                                                },
-                                            });
-                                        }
-                                    }
-
-                                    // Connect the last child to the destination
-                                    const lastChild = json.children[json.children.length - 1];
-                                    const lastChildId = lastChild.attributes.id;
-                                    if (lastChildId && json.attributes.dst) {
-                                        elements.push({
-                                            data: {
-                                                id: `${lastChildId}-${json.attributes.dst}`,
-                                                label: `${lastChildId} to ${json.attributes.dst}`,
-                                                eleType: element.name,
-                                                // parent: parent,
-                                                source: lastChildId,
-                                                target: json.attributes.dst,
-                                            },
-                                        });
-                                    }
-                                } else if (json.children && json.children.length === 1) {
-                                    // If there's only one child, connect the source to the child and the child to the destination
-                                    const source = json.attributes.src;
-                                    const target = json.children[0].attributes.id;
-                                    if (source && target) {
-                                        elements.push({
-                                            data: {
-                                                id: `${source}-${target}`,
-                                                label: `${source} to ${target}`,
-                                                eleType: element.name,
-                                                // parent: parent,
-                                                source: source,
-                                                target: target,
-                                            },
-                                        });
-                                    }
-                                    const child = json.children[0];
-                                    const childId = child.attributes.id;
-                                    if (childId && json.attributes.dst) {
-                                        elements.push({
-                                            data: {
-                                                id: `${childId}-${json.attributes.dst}`,
-                                                label: `${childId} to ${json.attributes.dst}`,
-                                                eleType: element.name,
-                                                // parent: parent,
-                                                source: childId,
-                                                target: json.attributes.dst,
-                                            },
-                                        });
-                                    }
-                                } else {
-                                    // If there are no children, connect the source to the destination
-                                    const source = json.attributes.src;
-                                    const target = json.attributes.dst;
-                                    if (source && target) {
-                                        elements.push({
-                                            data: {
-                                                id: `${source}-${target}`,
-                                                label: `${source} to ${target}`,
-                                                eleType: element.name,
-                                                // parent: parent,
-                                                source: source,
-                                                target: target,
-                                            },
-                                        });
-                                    }
-                                }
+                                getEdges(json.attributes, json.children, elements)
                                 break;
                             default:
                                 // elements.push({
@@ -341,6 +217,7 @@ function getClusterType(data) {
 }
 
 // @data (cluster) = obj.attributes
+// Returns user-defined or default routerID
 function getRouterID(data) {
     const hasRouter = data.hasOwnProperty('router_id')
 
@@ -355,3 +232,39 @@ function getRouterID(data) {
     }
 }
 
+// @data = obj.attributes (src/dst gw_src/gw_dst)
+// @children = obj.children (link_ctn...) (array of obj [{...},{...}...])
+function getEdges(data, children, eleArray) {
+    const gw = (data.hasOwnProperty('gw_src') && data.hasOwnProperty('gw_dst'))
+    const arrID = [];
+
+    // Populate array with ID(s) in order
+    if (!gw) { // Route. In order, [src, child[0].id, child[1].id, ..., child[length-1].id, dst]
+        arrID.push(data.src)
+        children.forEach(child => {
+            arrID.push(child.attributes.id)
+        })
+        arrID.push(data.dst)
+    } else { // zoneRoute. In order, [gw_src, child[0].id, child[1].id, ..., child[length-1].id, gw_dst]
+        arrID.push(data.gw_src)
+        children.forEach(child => {
+            arrID.push(child.attributes.id)
+        })
+        arrID.push(data.gw_dst)
+    }
+    
+    // Connect each id to the next as an edge
+    for (let i = 0; i !== (arrID.length - 1); i++) {
+        let src = arrID[i]
+        let dst = arrID[i+1]
+        eleArray.push({
+            data: {
+                id: `${src} -> ${dst}`,
+                label: `${src} to ${dst}`,
+                eleType: 'link_ctn',
+                source: src,
+                target: dst
+            }
+        })
+    }
+}

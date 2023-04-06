@@ -28,9 +28,11 @@ export default function PopUp({ obj, open, close }) {
 
         // Edit ID to exclude parentHost 
         // This is intended for the <disk>, but will apply to any other modified id for 'uniqueness'
-        let newStr = newObj.id
-        newStr = newStr.substr(newStr.indexOf(' ') + 1)
-        newObj.id = newStr
+        if (obj.eleType === 'disk'){
+            let newStr = newObj.id
+            newStr = newStr.substr(newStr.indexOf(' ') + 1)
+            newObj.id = newStr
+        }
 
         return (
             <div>
