@@ -146,10 +146,7 @@ export default function iterateJson(json, elements, parentZone, parentHost) {
                                 );
                                 break;
                             // Edges
-                            case "zoneRoute":
-                                getEdges(json.attributes, json.children, elements)
-                                break;
-                            case "route":
+                            case "route" || "zoneRoute":
                                 getEdges(json.attributes, json.children, elements)
                                 break;
                             default:
