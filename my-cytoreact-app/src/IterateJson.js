@@ -3,11 +3,10 @@ export default function iterateJson(json, elements, parentZone, parentHost) {
     // cytoData - Data for Cytoscape/Popup to render
     // propData - Unique user defined data that user implement in XML file (<prop> tag)
     // otherData - Properties/Attributes of object that WAS NOT Explicitly defined, but SHOULD HAVE default value.
-        // <host> tags MIGHT not have cores defined, but default is 1 core.
-        // <cluster> tags will always come with a router defined as '${prefix}${clusterId}_router${suffix}'
+    // <host> tags MIGHT not have cores defined, but default is 1 core.
+    // <cluster> tags will always come with a router defined as '${prefix}${clusterId}_router${suffix}'
     // mergeData - Combined all data above. This data is to be passed in the elements array
     var defData, cytoData, mergeData, otherData, propData
-
     for (const key in json) {
         if (json.hasOwnProperty(key)) {
             const value = json[key];
@@ -21,7 +20,7 @@ export default function iterateJson(json, elements, parentZone, parentHost) {
                         };
                         switch (element.name) {
                             // Nodes
-                            
+
                             case "zone":
                                 // Variables
                                 defData = json.attributes
@@ -105,7 +104,7 @@ export default function iterateJson(json, elements, parentZone, parentHost) {
                                     data: mergeData
                                 });
                                 break;
-                            case "cluster": 
+                            case "cluster":
                                 // Variable (cluster)
                                 defData = json.attributes
                                 cytoData = {
@@ -127,9 +126,10 @@ export default function iterateJson(json, elements, parentZone, parentHost) {
                                     label: otherData.router_id,
                                     shape: "diamond",
                                     parent: parentZone,
-                                    cluster_based: defData.id
+                                    cluster_based: defData.id,
+                                    dataId: defData.router_id,
                                 }
-
+                                setRouterId(cytoRCData.dataId, cytoRCData.id);
                                 // Variable (edge: cluster -> cluster_router)
                                 const src = defData.id
                                 const dst = cytoRCData.id
@@ -143,12 +143,45 @@ export default function iterateJson(json, elements, parentZone, parentHost) {
                                 }
 
                                 elements.push(
-                                    { data: mergeData },
-                                    { data: cytoRCData},
-                                    { data: edgeRCData}
+                                    {data: mergeData},
+                                    {data: cytoRCData},
+                                    {data: edgeRCData}
                                 );
                                 break;
                             // Edges
+                            case "zoneRoute":
+                                const sourceId = json.attributes.gw_src;
+                                const source = cytoRCDataIds[sourceId];
+                                const target = json.children[0].attributes.id;
+                                if (source && target) {
+                                    elements.push({
+                                        data: {
+                                            id: `${source}-${target}`,
+                                            label: `${source} to ${target}`,
+                                            eleType: element.name,
+                                            // parent: parent,
+                                            source: source,
+                                            target: target,
+                                        },
+                                    });
+                                }
+                                // has only one child for the example
+                                // thinking about zoneRoute || router case
+                                const child = json.children[0];
+                                const childId = child.attributes.id;
+                                if (childId && json.attributes.gw_dst) {
+                                    elements.push({
+                                        data: {
+                                            id: `${childId}-${json.attributes.gw_dst}`,
+                                            label: `${childId} to ${json.attributes.gw_dst}`,
+                                            eleType: element.name,
+                                            // parent: parent,
+                                            source: childId,
+                                            target: json.attributes.gw_dst,
+                                        },
+                                    });
+                                }
+                                break;
                             case "route":
                                 // src -> dst
                                 if (json.children && json.children.length > 1) {
@@ -317,5 +350,11 @@ function getRouter(data) {
     const id = data.id
     const suf = data.suffix
     const routerID = pre + id + '_router' + suf
-    return { router_id: routerID }
+    return {router_id: routerID}
+}
+
+const cytoRCDataIds = {};
+
+function setRouterId(routerId1, routerId2) {
+    cytoRCDataIds[routerId1] = routerId2;
 }
