@@ -115,21 +115,18 @@ export default function iterateJson(json, elements, parentZone, parentHost) {
                                     host: parentZone,
                                 }
                                 propData = getProp(json.children)
-                                otherData = getRouter(defData)
                                 mergeData = {...defData, ...cytoData, ...propData, ...otherData}
 
                                 // Variable (cluster_router)
                                 // New router node based on cluster router
                                 const cytoRCData = {
-                                    id: otherData.router_id,
+                                    id: getRouterID(json.attributes),
                                     eleType: "router",
-                                    label: otherData.router_id,
+                                    label: getRouterID(json.attributes),
                                     shape: "diamond",
                                     parent: parentZone,
                                     cluster_based: defData.id,
-                                    dataId: defData.router_id,
                                 }
-                                setRouterId(cytoRCData.dataId, cytoRCData.id);
                                 // Variable (edge: cluster -> cluster_router)
                                 const src = defData.id
                                 const dst = cytoRCData.id
@@ -150,8 +147,7 @@ export default function iterateJson(json, elements, parentZone, parentHost) {
                                 break;
                             // Edges
                             case "zoneRoute":
-                                const sourceId = json.attributes.gw_src;
-                                const source = cytoRCDataIds[sourceId];
+                                const source = json.attributes.gw_src;
                                 const target = json.children[0].attributes.id;
                                 if (source && target) {
                                     elements.push({
@@ -345,16 +341,17 @@ function getClusterType(data) {
 }
 
 // @data (cluster) = obj.attributes
-function getRouter(data) {
-    const pre = data.prefix
-    const id = data.id
-    const suf = data.suffix
-    const routerID = pre + id + '_router' + suf
-    return {router_id: routerID}
+function getRouterID(data) {
+    const hasRouter = data.hasOwnProperty('router_id')
+
+    if (hasRouter) {
+        return data.router_id
+    } else {
+        const pre = data.prefix
+        const id = data.id
+        const suf = data.suffix
+        const routerID = pre + id + '_router' + suf
+        return routerID
+    }
 }
 
-const cytoRCDataIds = {};
-
-function setRouterId(routerId1, routerId2) {
-    cytoRCDataIds[routerId1] = routerId2;
-}
