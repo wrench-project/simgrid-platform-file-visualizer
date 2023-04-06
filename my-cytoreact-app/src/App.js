@@ -62,10 +62,10 @@ const stylesheet = [
         }
     },
     {
-        selector: '[eleType="route"]',
+        selector: '[eleType="link_ctn"]',
         css: {
             'curve-style': 'bezier',
-            'width': 2,
+            'width': 1,
             // 'line-color' : 'black',
             // 'label': 'data(label)'
         }
