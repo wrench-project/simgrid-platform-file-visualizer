@@ -106,16 +106,24 @@ export default function iterateJson(json, elements, parentZone, parentHost) {
                                 break;
                             case "cluster":
                                 // Variable (cluster)
-                                defData = json.attributes
+                                defData = json.attributes;
+                                // Add a new zone for the cluster
+                                const clusterZoneData = {
+                                    eleType: "zone",
+                                    id: json.attributes.id + "_zone",
+                                    parent: parentZone,
+                                    label: json.attributes.id
+                                };
+                                elements.push({data: clusterZoneData});
+
                                 cytoData = {
                                     eleType: element.name,
                                     cluster_type: getClusterType(json.attributes),
-                                    label: json.attributes.id,
-                                    parent: parentZone,
+                                    parent: clusterZoneData.id,
                                     host: parentZone,
-                                }
-                                propData = getProp(json.children)
-                                mergeData = {...defData, ...cytoData, ...propData}
+                                };
+                                propData = getProp(json.children);
+                                mergeData = {...defData, ...cytoData, ...propData};
 
                                 // Variable (cluster_router)
                                 // New router node based on cluster router
@@ -124,20 +132,20 @@ export default function iterateJson(json, elements, parentZone, parentHost) {
                                     eleType: "router",
                                     label: getRouterID(json.attributes),
                                     shape: "diamond",
-                                    parent: parentZone,
+                                    parent: clusterZoneData.id, // Set the parent to the new zone
                                     cluster_based: defData.id,
-                                }
+                                };
+
                                 // Variable (edge: cluster -> cluster_router)
-                                const src = defData.id
-                                const dst = cytoRCData.id
+                                const src = defData.id;
+                                const dst = cytoRCData.id;
                                 const edgeRCData = {
                                     id: `${src}-${dst}`,
                                     label: `${src} to ${dst}`,
                                     eleType: "edge",
-                                    // parent: parent,
                                     source: src,
                                     target: dst,
-                                }
+                                };
 
                                 elements.push(
                                     {data: mergeData},
@@ -145,19 +153,11 @@ export default function iterateJson(json, elements, parentZone, parentHost) {
                                     {data: edgeRCData}
                                 );
                                 break;
-                            // Edges
                             case "route":
                             case "zoneRoute":
                                 getEdges(json.attributes, json.children, elements)
                                 break;
                             default:
-                                // elements.push({
-                                //     data: {
-                                //         id: json.attributes.id,
-                                //         name: element.name,
-                                //         label: element.name,
-                                //     },
-                                // });
                                 break;
                         }
                     }

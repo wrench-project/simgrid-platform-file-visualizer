@@ -89,7 +89,6 @@ const stylesheet = [
     {
         selector: '[eleType="cluster"][cluster_type="backbone"]',
         css: {
-            'label': 'data(label)',
             'shape': 'rectangle',
             'background-image': `url(${backboneImage})`,
             'background-color': 'white',
@@ -101,7 +100,6 @@ const stylesheet = [
     {
         selector: '[eleType="cluster"][cluster_type="crossbar"]',
         css: {
-            'label': 'data(label)',
             'shape': 'rectangle',
             'background-image': `url(${crossbarImage})`,
             'background-color': 'white',
@@ -113,7 +111,6 @@ const stylesheet = [
     {
         selector: '[eleType="cluster"][cluster_type="topology"]',
         css: {
-            'label': 'data(label)',
             'shape': 'rectangle',
             'background-image': `url(${topologyImage})`,
             'background-color': 'white',
