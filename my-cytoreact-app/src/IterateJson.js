@@ -13,14 +13,23 @@ export default function iterateJson(json, elements, parentZone, parentHost) {
 
             switch (key) {
                 case "name":
-                    if (!["DOCTYPE", "--", "---", "platform"].includes(value)) {
+                    if (!["DOCTYPE", "--", "---"].includes(value)) {
                         const element = {
                             name: value,
                             attributes: json.attributes,
                         };
                         switch (element.name) {
                             // Nodes
-
+                            case "platform":
+                                // Variables
+                                defData = json.attributes
+                                cytoData = {
+                                    eleType: element.name
+                                }
+                                elements.push({
+                                    data: {...defData, ...cytoData}
+                                })
+                                break;
                             case "zone":
                                 // Variables
                                 defData = json.attributes

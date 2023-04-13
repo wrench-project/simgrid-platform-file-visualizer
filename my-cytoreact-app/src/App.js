@@ -1,12 +1,14 @@
-import {useEffect, useRef, useState} from 'react';
+import { useEffect, useRef, useState } from 'react';
 import CytoscapeComponent from 'react-cytoscapejs';
 import FileUploadButton from './FileUpload';
+import DownloadButton from './DownloadButton';
 import PopUp from './PopUp';
-import {isEmpty} from 'lodash';
+import { isEmpty } from 'lodash';
 import backboneImage from './backbone.png';
 import crossbarImage from './crossbar.png';
 import topologyImage from './topology.png';
 import cylinderImage from './cylinder.png';
+import { Grid } from '@mui/material';
 
 // sample data
 // const elements = [
@@ -36,6 +38,13 @@ import cylinderImage from './cylinder.png';
 // ];
 
 const stylesheet = [
+    {
+        selector: 'node[eleType="platform"]',
+        css: {
+            'display': 'none',
+            'visibility': 'hidden'
+        }
+    },
     {
         selector: 'node[eleType="host"]',
         css: {
@@ -154,6 +163,13 @@ function App() {
         setElements(newElements);
     }
 
+    // Handle file content
+    const [preParseData, setPreParseData] = useState();
+    const handlePPD = (data) => {
+        setPreParseData(data);
+    }
+
+
     // Ensures layout do not rerender when clicking on nodes
     const cyRef = useRef(null);
     const runLayout = (cy) => {
@@ -167,7 +183,14 @@ function App() {
 
     return (
         <>
-            <FileUploadButton handleElements={handleElements}/>
+            <Grid container style={{ backgroundColor: "lightgray" }}>
+                <Grid item xs={6}>
+                    <FileUploadButton handleElements={handleElements}/>
+                </Grid>
+                <Grid item xs={6}>
+                    <DownloadButton/>
+                </Grid>
+            </Grid>
             <PopUp obj={obj} open={open} close={handleClose}/>
             <CytoscapeComponent
                 elements={elements}
