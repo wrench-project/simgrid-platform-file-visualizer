@@ -141,7 +141,7 @@ function App() {
     return (
         <>
             <FileUploadButton handleElements={handleElements}/>
-            <PopUp obj={obj} open={open} close={handleClose}/>
+            <PopUp obj={obj} open={open} close={handleClose} handleElements={handleElements}/>
             <CytoscapeComponent
                 elements={elements}
                 style={style}
