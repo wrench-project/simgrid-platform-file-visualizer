@@ -43,65 +43,6 @@ export default function PopUp({ obj, open, close }) {
         )
     }
 
-    // const DisplayObject = ({obj}) => {
-    //     switch (obj.eleType) {
-    //         case 'host':
-    //             return (
-    //                 <div>
-    //                     <p>Tag: {obj.eleType}</p>
-    //                     <p>ID: {obj.id}</p>
-    //                     <p>Cores: {obj.cores}</p>
-    //                     <p>Speed: {obj.speed}</p>
-    //                 </div>
-    //             )
-    //         case 'link': 
-    //             return (
-    //                 <div>
-    //                     <p>Tag: {obj.eleType}</p>
-    //                     <p>ID: {obj.id}</p>
-    //                     <p>Bandwidth: {obj.bandwidth}</p>
-    //                     <p>Latency: {obj.latency}</p>
-    //                 </div>
-    //             )
-    //         case 'route':
-    //             return (
-    //                 <div>
-    //                     <p>Tag: {obj.eleType}</p>
-    //                     <p>Source: {obj.source}</p>
-    //                     <p>Destination: {obj.target}</p>
-    //                 </div>
-    //             )
-    //         case 'router':
-    //             return (
-    //                 <div>
-    //                     <p>Tag: {obj.eleType}</p>
-    //                     <p>ID: {obj.id}</p>
-    //                     <p>Coordinates: {obj.coordinates}</p>
-    //                 </div>
-    //             )
-    //         case 'zone':
-    //             return (
-    //                 <div>
-    //                     <p>Tag: {obj.eleType}</p>
-    //                     <p>ID: {obj.id}</p>
-    //                     <p>Routing: {obj.routing}</p>
-    //                 </div>
-    //             )                
-    //         case 'core':
-    //             return (
-    //                 <div>
-    //                     <p>Tag: {obj.eleType}</p>
-    //                     <p>Parent: {obj.parent}</p>
-    //                 </div>
-    //             )
-    //         default: 
-    //         return (
-    //             <div>
-    //                 <p>Tag: {obj.eleType}</p>
-    //             </div>
-    //         )
-    //     }
-    // }
 
     // Renders Modal, displaying node/link data attribute
     return (
