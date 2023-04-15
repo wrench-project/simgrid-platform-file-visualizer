@@ -55,12 +55,13 @@ export default function PopUp({ obj, open, close, handleElements }) {
             });
         });
         close();
+        setEditing(false);
     };
 
     // Takes node object from props, passes to const DisplayObject as attribute
     // Loops through object attribute. (Should be object data). Display in a <p> tag
     const DisplayObject = ({ obj }) => {
-        const doNotShow = ['label', 'eleType', 'parent', 'type', 'shape'];
+        const doNotShow = ['eleType', 'parent', 'type', 'shape'];
         var newObj = omit(obj, doNotShow); // Deletes keys
 
         // Edit ID to exclude parentHost
@@ -73,10 +74,12 @@ export default function PopUp({ obj, open, close, handleElements }) {
 
         return (
             <div>
-                {Object.entries(newObj).map(([key, val]) =>
+                {Object.entries(newObj).map(([key, val]) => (
                     <div key={key}>
                         <label htmlFor={key}>{key}: </label>
-                        {!editing ? (
+                        {key === "id" ? (
+                            <span>{val}</span>
+                        ) : !editing ? (
                             <span>{val}</span>
                         ) : (
                             <input
@@ -87,7 +90,7 @@ export default function PopUp({ obj, open, close, handleElements }) {
                             />
                         )}
                     </div>
-                )}
+                ))}
             </div>
         );
     };
