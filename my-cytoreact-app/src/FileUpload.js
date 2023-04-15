@@ -18,8 +18,7 @@ function FileUploadButton(props) {
         reader.readAsText(selectedFile);
         reader.onload = function (e) {
             preParseData = e.target.result;
-            console.log(preParseData)
-            
+            props.handlePPD(preParseData)
             parseData(preParseData);
         };
 
@@ -35,7 +34,6 @@ function FileUploadButton(props) {
             console.log(elements);
 
             props.handleElements(elements);
-            props.handlePPD(preParseData);
         }
     };
 

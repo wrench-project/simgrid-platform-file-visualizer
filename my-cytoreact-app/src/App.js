@@ -181,14 +181,16 @@ function App() {
         }
     }, [elements]);
 
+    const dlProp = {preParseData, elements}
+
     return (
         <>
             <Grid container style={{ backgroundColor: "lightgray" }}>
                 <Grid item xs={6}>
-                    <FileUploadButton handleElements={handleElements}/>
+                    <FileUploadButton handleElements={handleElements} handlePPD={handlePPD}/>
                 </Grid>
                 <Grid item xs={6}>
-                    <DownloadButton/>
+                    <DownloadButton props={{dlProp}}/>
                 </Grid>
             </Grid>
             <PopUp obj={obj} open={open} close={handleClose}/>
