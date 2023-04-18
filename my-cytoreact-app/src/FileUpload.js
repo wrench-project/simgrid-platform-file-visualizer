@@ -13,10 +13,12 @@ function FileUploadButton(props) {
 
     // Read in file
     const handleSubmission = () => {
+        var preParseData;
         const reader = new FileReader();
         reader.readAsText(selectedFile);
         reader.onload = function (e) {
-            var preParseData = e.target.result;
+            preParseData = e.target.result;
+            props.handlePPD(preParseData)
             parseData(preParseData);
         };
 
@@ -36,7 +38,7 @@ function FileUploadButton(props) {
     };
 
     return (
-      <div style={{ backgroundColor: "gray" }}>
+      <div>
            <input type="file" name="file" onChange={changeHandler} />
            <div>
                <button onClick={handleSubmission}>Submit</button>

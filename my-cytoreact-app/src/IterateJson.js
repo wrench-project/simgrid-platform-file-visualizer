@@ -13,14 +13,23 @@ export default function iterateJson(json, elements, parentZone, parentHost) {
 
             switch (key) {
                 case "name":
-                    if (!["DOCTYPE", "--", "---", "platform"].includes(value)) {
+                    if (!["DOCTYPE", "--", "---"].includes(value)) {
                         const element = {
                             name: value,
                             attributes: json.attributes,
                         };
                         switch (element.name) {
                             // Nodes
-
+                            case "platform":
+                                // Variables
+                                defData = json.attributes
+                                cytoData = {
+                                    eleType: element.name
+                                }
+                                elements.push({
+                                    data: {...defData, ...cytoData}
+                                })
+                                break;
                             case "zone":
                                 // Variables
                                 defData = json.attributes
@@ -109,7 +118,7 @@ export default function iterateJson(json, elements, parentZone, parentHost) {
                                 defData = json.attributes;
                                 // Add a new zone for the cluster
                                 const clusterZoneData = {
-                                    eleType: "zone",
+                                    eleType: "cluster_zone",
                                     id: json.attributes.id + "_zone",
                                     parent: parentZone,
                                     label: json.attributes.id
@@ -129,7 +138,7 @@ export default function iterateJson(json, elements, parentZone, parentHost) {
                                 // New router node based on cluster router
                                 const cytoRCData = {
                                     id: getRouterID(json.attributes),
-                                    eleType: "router",
+                                    eleType: "cluster_router",
                                     label: getRouterID(json.attributes),
                                     shape: "diamond",
                                     parent: clusterZoneData.id, // Set the parent to the new zone
@@ -142,7 +151,7 @@ export default function iterateJson(json, elements, parentZone, parentHost) {
                                 const edgeRCData = {
                                     id: `${src}-${dst}`,
                                     label: `${src} to ${dst}`,
-                                    eleType: "edge",
+                                    eleType: "cluster_edge",
                                     source: src,
                                     target: dst,
                                 };
@@ -235,6 +244,7 @@ function getRouterID(data) {
 function getEdges(data, children, eleArray) {
     const gw = (data.hasOwnProperty('gw_src') && data.hasOwnProperty('gw_dst'))
     const arrID = [];
+    var path;
 
     // Populate array with ID(s) in order
     if (!gw) { // Route. In order, [src, child[0].id, child[1].id, ..., child[length-1].id, dst]
@@ -243,12 +253,14 @@ function getEdges(data, children, eleArray) {
             arrID.push(child.attributes.id)
         })
         arrID.push(data.dst)
+        path = 'route'
     } else { // zoneRoute. In order, [gw_src, child[0].id, child[1].id, ..., child[length-1].id, gw_dst]
         arrID.push(data.gw_src)
         children.forEach(child => {
             arrID.push(child.attributes.id)
         })
         arrID.push(data.gw_dst)
+        path = 'zoneRoute'
     }
 
     // Connect each id to the next as an edge
@@ -259,6 +271,7 @@ function getEdges(data, children, eleArray) {
             data: {
                 id: `${src} -> ${dst}`,
                 label: `${src} to ${dst}`,
+                path: path,
                 eleType: 'link_ctn',
                 source: src,
                 target: dst
