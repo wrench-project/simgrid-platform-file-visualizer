@@ -36,7 +36,9 @@ export default function PopUp({ obj, open, close, handleElements }) {
     const handleStartEditing = () => {
         setEditing(true);
         setEditedObj(obj);
-        inputRef.current.focus();
+        if (inputRef.current) {
+            inputRef.current.focus();
+        }
     };
 
     const handleCancelEditing = () => {
