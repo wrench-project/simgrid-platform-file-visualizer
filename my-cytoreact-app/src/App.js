@@ -61,6 +61,14 @@ const stylesheet = [
             'background-color': '#8a0202',
         }
     },
+        {
+        selector: 'node[eleType="cluster_router"]',
+        css: {
+            'shape': 'data(shape)',
+            'label': 'data(label)',
+            'background-color': '#8a0202',
+        }
+    },
     {
         selector: 'node[eleType="link"]',
         css: {
@@ -80,6 +88,12 @@ const stylesheet = [
     },
     {
         selector: '[eleType="zone"]',
+        css: {
+            'label': 'data(label)',
+        }
+    },
+    {
+        selector: '[eleType="cluster_zone"]',
         css: {
             'label': 'data(label)',
         }
