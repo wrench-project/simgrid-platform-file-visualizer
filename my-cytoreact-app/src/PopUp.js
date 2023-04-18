@@ -1,6 +1,7 @@
 import Modal from '@mui/material/Modal';
 import Box from '@mui/material/Box';
-import { omit } from 'lodash'
+import { omit } from 'lodash';
+import { useState, useRef } from "react";
 
 // Box style
 // Src and demo - https://codesandbox.io/s/766my2?file=/demo.js:546-587
@@ -16,102 +17,109 @@ const style = {
     p: 4,
 };
 
-
 // Takes in a node object, open state and close state from app.js
-export default function PopUp({ obj, open, close }) {
+export default function PopUp({ obj, open, close, handleElements }) {
+    const [editedObj, setEditedObj] = useState(obj);
+    const [editing, setEditing] = useState(false);
+
+    // avoid for box disselection and cursor disappearance
+    const inputRef = useRef(null);
+
+    // Setting the edited object to its key
+    const handleEdit = (key, value) => {
+        setEditedObj({
+            ...editedObj,
+            [key]: value
+        });
+    };
+
+    const handleStartEditing = () => {
+        setEditing(true);
+        setEditedObj(obj);
+        if (inputRef.current) {
+            inputRef.current.focus();
+        }
+    };
+
+    const handleCancelEditing = () => {
+        setEditing(false);
+        setEditedObj(obj);
+    };
+
+    // if data.id === editedObj.id, save the new value
+    const handleSave = () => {
+        handleElements(prevElements => {
+            return prevElements.map(el => {
+                if (el.data.id === editedObj.id) {
+                    return {
+                        ...el,
+                        data: {
+                            ...el.data,
+                            ...editedObj
+                        }
+                    };
+                }
+                return el;
+            });
+        });
+        close();
+        setEditing(false);
+    };
 
     // Takes node object from props, passes to const DisplayObject as attribute
     // Loops through object attribute. (Should be object data). Display in a <p> tag
-    const DisplayObject = ({obj}) => {
-        const doNotShow = ['label', 'eleType', 'parent', 'type', 'shape']
+    const DisplayObject = ({ obj }) => {
+        const doNotShow = ['eleType', 'parent', 'type', 'shape'];
         var newObj = omit(obj, doNotShow); // Deletes keys
 
-        // Edit ID to exclude parentHost 
+        // Edit ID to exclude parentHost
         // This is intended for the <disk>, but will apply to any other modified id for 'uniqueness'
-        if (obj.eleType === 'disk'){
-            let newStr = newObj.id
-            newStr = newStr.substr(newStr.indexOf(' ') + 1)
-            newObj.id = newStr
+        if (obj.eleType === 'disk') {
+            let newStr = newObj.id;
+            newStr = newStr.substr(newStr.indexOf(' ') + 1);
+            newObj.id = newStr;
         }
 
         return (
             <div>
-                {Object.entries(newObj).map(([key,val]) =>
-                    <p key={key}>{key}: {val}</p>
-                )}
+                {Object.entries(newObj).map(([key, val]) => (
+                    <div key={key}>
+                        <label htmlFor={key}>{key}: </label>
+                        {key === "id" ? (
+                            <span>{val}</span>
+                        ) : !editing ? (
+                            <span>{val}</span>
+                        ) : (
+                            <input
+                                id={key}
+                                type="text"
+                                defaultValue={editedObj[key]}
+                                onBlur={(e) => handleEdit(key, e.target.value)}
+                                ref={inputRef}
+                            />
+                        )}
+                    </div>
+                ))}
             </div>
-        )
-    }
+        );
+    };
 
-    // const DisplayObject = ({obj}) => {
-    //     switch (obj.eleType) {
-    //         case 'host':
-    //             return (
-    //                 <div>
-    //                     <p>Tag: {obj.eleType}</p>
-    //                     <p>ID: {obj.id}</p>
-    //                     <p>Cores: {obj.cores}</p>
-    //                     <p>Speed: {obj.speed}</p>
-    //                 </div>
-    //             )
-    //         case 'link': 
-    //             return (
-    //                 <div>
-    //                     <p>Tag: {obj.eleType}</p>
-    //                     <p>ID: {obj.id}</p>
-    //                     <p>Bandwidth: {obj.bandwidth}</p>
-    //                     <p>Latency: {obj.latency}</p>
-    //                 </div>
-    //             )
-    //         case 'route':
-    //             return (
-    //                 <div>
-    //                     <p>Tag: {obj.eleType}</p>
-    //                     <p>Source: {obj.source}</p>
-    //                     <p>Destination: {obj.target}</p>
-    //                 </div>
-    //             )
-    //         case 'router':
-    //             return (
-    //                 <div>
-    //                     <p>Tag: {obj.eleType}</p>
-    //                     <p>ID: {obj.id}</p>
-    //                     <p>Coordinates: {obj.coordinates}</p>
-    //                 </div>
-    //             )
-    //         case 'zone':
-    //             return (
-    //                 <div>
-    //                     <p>Tag: {obj.eleType}</p>
-    //                     <p>ID: {obj.id}</p>
-    //                     <p>Routing: {obj.routing}</p>
-    //                 </div>
-    //             )                
-    //         case 'core':
-    //             return (
-    //                 <div>
-    //                     <p>Tag: {obj.eleType}</p>
-    //                     <p>Parent: {obj.parent}</p>
-    //                 </div>
-    //             )
-    //         default: 
-    //         return (
-    //             <div>
-    //                 <p>Tag: {obj.eleType}</p>
-    //             </div>
-    //         )
-    //     }
-    // }
-
-    // Renders Modal, displaying node/link data attribute
     return (
         <div>
-           <Modal open={open} onClose={close}>
+            <Modal open={open} onClose={close}>
                 <Box sx={style}>
                     <h2>{obj.eleType} Information</h2>
-                    <DisplayObject obj={obj}/>
+                    <DisplayObject obj={obj} />
+                    {!editing ? (
+                        <button onClick={handleStartEditing}>Edit</button>
+                    ) : (
+                        <div>
+                            <button onClick={handleSave}>Save</button>
+                            <button onClick={handleCancelEditing}>Cancel</button>
+                        </div>
+                    )}
                 </Box>
-            </Modal> 
+            </Modal>
         </div>
-    )
+    );
 }
