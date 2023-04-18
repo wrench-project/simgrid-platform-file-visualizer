@@ -8,7 +8,6 @@ import backboneImage from './backbone.png';
 import crossbarImage from './crossbar.png';
 import topologyImage from './topology.png';
 import cylinderImage from './cylinder.png';
-import { Grid } from '@mui/material';
 
 // sample data
 // const elements = [
@@ -199,14 +198,8 @@ function App() {
 
     return (
         <>
-            <Grid container style={{ backgroundColor: "lightgray" }}>
-                <Grid item xs={6}>
-                    <FileUploadButton handleElements={handleElements} handlePPD={handlePPD}/>
-                </Grid>
-                <Grid item xs={6}>
-                    <DownloadButton props={{dlProp}}/>
-                </Grid>
-            </Grid>
+            <FileUploadButton handleElements={handleElements} handlePPD={handlePPD}/>
+            <DownloadButton props={{dlProp}}/>
             <PopUp obj={obj} open={open} close={handleClose}/>
             <CytoscapeComponent
                 elements={elements}
