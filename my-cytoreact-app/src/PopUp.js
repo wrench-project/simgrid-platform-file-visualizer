@@ -1,7 +1,7 @@
 import Modal from '@mui/material/Modal';
 import Box from '@mui/material/Box';
 import { omit } from 'lodash';
-import { useState } from "react";
+import { useState, useRef } from "react";
 
 // Box style
 // Src and demo - https://codesandbox.io/s/766my2?file=/demo.js:546-587
@@ -22,6 +22,9 @@ export default function PopUp({ obj, open, close, handleElements }) {
     const [editedObj, setEditedObj] = useState(obj);
     const [editing, setEditing] = useState(false);
 
+    // avoid for box disselection and cursor disappearance
+    const inputRef = useRef(null);
+
     // Setting the edited object to its key
     const handleEdit = (key, value) => {
         setEditedObj({
@@ -33,6 +36,7 @@ export default function PopUp({ obj, open, close, handleElements }) {
     const handleStartEditing = () => {
         setEditing(true);
         setEditedObj(obj);
+        inputRef.current.focus();
     };
 
     const handleCancelEditing = () => {
@@ -87,9 +91,9 @@ export default function PopUp({ obj, open, close, handleElements }) {
                             <input
                                 id={key}
                                 type="text"
-                                value={editedObj[key]}
-                                onChange={(e) => handleEdit(key, e.target.value)}
-                                autoFocus
+                                defaultValue={editedObj[key]}
+                                onBlur={(e) => handleEdit(key, e.target.value)}
+                                ref={inputRef}
                             />
                         )}
                     </div>
