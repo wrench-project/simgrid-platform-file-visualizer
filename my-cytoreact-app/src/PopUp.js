@@ -22,6 +22,7 @@ export default function PopUp({ obj, open, close, handleElements }) {
     const [editedObj, setEditedObj] = useState(obj);
     const [editing, setEditing] = useState(false);
 
+    // Setting the edited object to its key
     const handleEdit = (key, value) => {
         setEditedObj({
             ...editedObj,
@@ -39,6 +40,7 @@ export default function PopUp({ obj, open, close, handleElements }) {
         setEditedObj(obj);
     };
 
+    // if data.id === editedObj.id, save the new value
     const handleSave = () => {
         handleElements(prevElements => {
             return prevElements.map(el => {
@@ -87,6 +89,7 @@ export default function PopUp({ obj, open, close, handleElements }) {
                                 type="text"
                                 value={editedObj[key]}
                                 onChange={(e) => handleEdit(key, e.target.value)}
+                                autoFocus
                             />
                         )}
                     </div>
