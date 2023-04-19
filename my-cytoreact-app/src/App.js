@@ -173,7 +173,7 @@ function App() {
         <>
             <FileUploadButton handleElements={handleElements} handlePPD={handlePPD}/>
             <DownloadButton props={{dlProp}}/>
-            <PopUp obj={obj} open={open} close={handleClose}/>
+            <PopUp obj={obj} open={open} handleElements={handleElements} close={handleClose}/>
             <CytoscapeComponent
                 elements={elements}
                 style={style}
