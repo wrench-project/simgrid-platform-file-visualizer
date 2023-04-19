@@ -1,6 +1,6 @@
 import { IconButton } from '@mui/material';
 import DownloadIcon from '@mui/icons-material/Download';
-import { omit } from 'lodash';
+import { isUndefined } from 'lodash';
 
 export default function DownloadButton(props) {
 
@@ -12,8 +12,7 @@ export default function DownloadButton(props) {
   
   const handleClick = () => {
     console.log(eleArr)
-    let newArr = cleanArr(eleArr)
-    console.log(newArr)
+    modifyArr(eleArr)
   }
 
   return (
@@ -23,18 +22,42 @@ export default function DownloadButton(props) {
   )
 }
 
-// Function that takes an array and removes object attributes
-function cleanArr(arr) {
-  const delAttribute = ['label', 'shape', 'host']
+// Function that takes an array and removes certain object
+function modifyArr(arr) {
   const delEleType = ['cluster_router', 'cluster_edge', 'cluster_zone']
   const newArr = [];
   arr.forEach(element => {
-    let data = element.data
-    omit(element.data, delAttribute)                     // Takes out attributes not found in original XML file 
+    const data = element.data                // Takes out attributes not found in original XML file 
     if (!(delEleType.includes(data.eleType))) {  // Takes out items not found in original XML file
       newArr.push(element)
     }
   });
 
-  return newArr;
+  parseArr(newArr)
 }
+
+function parseArr(arr) {
+  let str = ''
+  var currentParent
+  const plat = arr[0].data
+
+  const getData = () => {
+    let mainStr = ''
+    for (var i = 1; i < arr.length; i++) {
+      const object = arr[i].data
+      if (isUndefined(object.parent)) {
+        mainStr += `<${object.eleType}>\n</${object.eleType}`
+      } else {
+        mainStr += `<${object.eleType}>\n${getData()}\n</${object.eleType}`
+      }
+    }
+    return mainStr
+  }
+
+  str += `<${plat.eleType} version="${plat.version}">\n${getData()}\n</${plat.eleType}>`
+
+  console.log(arr)
+  console.log(str)
+}
+
+// str += `<${data.eleType}>\n</${data.eleType}>\n`

@@ -69,7 +69,7 @@ export default function PopUp({ obj, open, close, handleElements }) {
     // Takes node object from props, passes to const DisplayObject as attribute
     // Loops through object attribute. (Should be object data). Display in a <p> tag
     const DisplayObject = ({ obj }) => {
-        const doNotShow = ['eleType', 'parent', 'type', 'shape'];
+        const doNotShow = ['eleType', 'parent', 'type', 'shape', 'label'];
         var newObj = omit(obj, doNotShow); // Deletes keys
 
         // Edit ID to exclude parentHost
