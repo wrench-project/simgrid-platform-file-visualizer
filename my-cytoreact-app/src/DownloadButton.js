@@ -29,8 +29,8 @@ export default function DownloadButton(props) {
         const platformNode = doc.documentElement;
         platformNode.setAttribute("version", "4.1");
 
-        const zones = new Map();
 
+        // need to add more attributes including disk, router, ...
         arr.forEach((element) => {
             if (element.data.eleType === "zone") {
                 const zoneNode = doc.createElement("zone");
