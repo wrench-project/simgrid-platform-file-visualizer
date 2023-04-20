@@ -63,20 +63,11 @@
       <workItem from="1681078021479" duration="543000" />
       <workItem from="1681505028793" duration="4165000" />
       <workItem from="1681786158013" duration="252000" />
+      <workItem from="1682020783580" duration="895000" />
     </task>
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
     <option name="version" value="3" />
-  </component>
-  <component name="XDebuggerManager">
-    <breakpoint-manager>
-      <breakpoints>
-        <line-breakpoint enabled="true" type="javascript">
-          <url>file://$PROJECT_DIR$/my-cytoreact-app/src/App.js</url>
-          <option name="timeStamp" value="1" />
-        </line-breakpoint>
-      </breakpoints>
-    </breakpoint-manager>
   </component>
 </project>

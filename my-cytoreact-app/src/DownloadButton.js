@@ -38,12 +38,26 @@ export default function DownloadButton(props) {
                 zoneNode.setAttribute("id", data.id);
                 zoneNode.setAttribute("routing", data.routing);
 
-                // Add hosts
                 arr.forEach((host) => {
                     if (host.data.eleType === "host" && host.data.parent === data.id) {
                         const hostNode = doc.createElement("host");
                         hostNode.setAttribute("id", host.data.id);
                         hostNode.setAttribute("speed", host.data.speed);
+
+                        arr.forEach((disk) => {
+                            if (disk.data.eleType === "disk" && disk.data.parent === host.data.id) {
+                                const diskNode = doc.createElement("disk");
+                                let newStr = disk.data.id;
+                                newStr = newStr.substr(newStr.indexOf(' ') + 1);
+                                disk.data.id = newStr;
+                                diskNode.setAttribute("id", disk.data.id);
+                                diskNode.setAttribute("read_bw", disk.data.read_bw);
+                                diskNode.setAttribute("write_bw", disk.data.write_bw);
+
+                                hostNode.appendChild(diskNode);
+                            }
+                        });
+
                         zoneNode.appendChild(hostNode);
                     }
                 });
