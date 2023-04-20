@@ -5,7 +5,7 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="16acee19-c3f1-4486-87dd-22168e6906e3" name="Changes" comment="">
-      <change beforePath="$PROJECT_DIR$/my-cytoreact-app/src/PopUp.js" beforeDir="false" afterPath="$PROJECT_DIR$/my-cytoreact-app/src/PopUp.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/my-cytoreact-app/src/App.js" beforeDir="false" afterPath="$PROJECT_DIR$/my-cytoreact-app/src/App.js" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -62,6 +62,7 @@
       <workItem from="1681078021479" duration="543000" />
       <workItem from="1681505028793" duration="4165000" />
       <workItem from="1681786158013" duration="252000" />
+      <workItem from="1682020523115" duration="67000" />
     </task>
     <servers />
   </component>
