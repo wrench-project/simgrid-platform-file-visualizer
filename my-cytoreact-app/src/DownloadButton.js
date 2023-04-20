@@ -62,6 +62,14 @@ export default function DownloadButton(props) {
                     }
                 });
 
+                arr.forEach((router) => {
+                    if (router.data.eleType === "router") {
+                        const routerNode = doc.createElement("router");
+                        routerNode.setAttribute("id", router.data.id);
+                        zoneNode.appendChild(routerNode);
+                    }
+                });
+
                 // Add links
                 arr.forEach((link) => {
                     if (link.data.eleType === "link" && link.data.parent === data.id) {
